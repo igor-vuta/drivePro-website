@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 245, 240, 232;
+  --background-start-rgb: 10, 10, 10;
+  --font-oswald: 'Impact', 'Arial Narrow', Arial, sans-serif;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: #0A0A0A;
+}
