@@ -6,10 +6,21 @@ import { useState } from 'react';
 export default function ContactSection() {
   const t = useTranslations('contact');
   const [phone, setPhone] = useState('');
+  const [submitted, setSubmitted] = useState(false);
 
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '77XXXXXXXXX';
   const instagramUrl = process.env.NEXT_PUBLIC_INSTAGRAM_URL || 'https://instagram.com/yourhandle';
   const phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER || '+7XXXXXXXXXX';
+
+  function handleCallback(e: React.FormEvent) {
+    e.preventDefault();
+    if (!phone.trim()) return;
+    // Open WhatsApp with the provided phone number pre-filled as context
+    const message = encodeURIComponent(`Перезвоните мне: ${phone}`);
+    window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank', 'noopener,noreferrer');
+    setSubmitted(true);
+    setPhone('');
+  }
 
   return (
     <section className="bg-jet-black py-20">
@@ -27,16 +38,26 @@ export default function ContactSection() {
             <h3 className="text-cream font-black text-lg uppercase tracking-wider mb-4">
               {t('callback_title')}
             </h3>
-            <input
-              type="tel"
-              value={phone}
-              onChange={e => setPhone(e.target.value)}
-              placeholder={t('callback_placeholder')}
-              className="w-full bg-jet-black border border-cream/20 text-cream px-4 py-3 mb-4 text-sm focus:outline-none focus:border-blood-red"
-            />
-            <button className="w-full bg-blood-red text-cream font-black text-xs tracking-widest uppercase py-3 hover:bg-deep-red transition-colors">
-              {t('callback_btn')}
-            </button>
+            {submitted ? (
+              <p className="text-gold font-bold text-sm tracking-wider">{t('callback_success')}</p>
+            ) : (
+              <form onSubmit={handleCallback}>
+                <input
+                  type="tel"
+                  value={phone}
+                  onChange={e => setPhone(e.target.value)}
+                  placeholder={t('callback_placeholder')}
+                  className="w-full bg-jet-black border border-cream/20 text-cream px-4 py-3 mb-4 text-sm focus:outline-none focus:border-blood-red"
+                  required
+                />
+                <button
+                  type="submit"
+                  className="w-full bg-blood-red text-cream font-black text-xs tracking-widest uppercase py-3 hover:bg-deep-red transition-colors"
+                >
+                  {t('callback_btn')}
+                </button>
+              </form>
+            )}
           </div>
 
           {/* 2. Phone */}
