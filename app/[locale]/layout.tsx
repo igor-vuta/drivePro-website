@@ -1,13 +1,19 @@
 import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
-import { setRequestLocale } from 'next-intl/server';
+import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import '../globals.css';
 
-export const metadata: Metadata = {
-  title: 'Земляные Работы — Алматы',
-  description: 'Экскаваторные и земляные работы в Алматы. Малые и средние проекты.',
-};
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  const t = await getTranslations({ locale, namespace: 'meta' });
+  return {
+    title: t('title'),
+    description: t('description'),
+  };
+}
 
 export function generateStaticParams() {
   return [{ locale: 'ru' }, { locale: 'kz' }];

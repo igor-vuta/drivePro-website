@@ -16,7 +16,7 @@ export default function ContactSection() {
     e.preventDefault();
     if (!phone.trim()) return;
     // Open WhatsApp with the provided phone number pre-filled as context
-    const message = encodeURIComponent(`Перезвоните мне: ${phone}`);
+    const message = encodeURIComponent(`${t('callback_whatsapp_message')}${phone}`);
     window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank', 'noopener,noreferrer');
     setSubmitted(true);
     setPhone('');
