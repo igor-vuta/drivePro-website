@@ -8,14 +8,13 @@ export default function ContactSection() {
   const [phone, setPhone] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
-  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '77XXXXXXXXX';
-  const instagramUrl = process.env.NEXT_PUBLIC_INSTAGRAM_URL || 'https://instagram.com/yourhandle';
-  const phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER || '+7XXXXXXXXXX';
+  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '77772071697';
+  const instagramUrl = process.env.NEXT_PUBLIC_INSTAGRAM_URL || 'https://www.instagram.com/drivepro.moped.almaty';
+  const phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER || '+7 (777) 207-16-97';
 
   function handleCallback(e: React.FormEvent) {
     e.preventDefault();
     if (!phone.trim()) return;
-    // Open WhatsApp with the provided phone number pre-filled as context
     const message = encodeURIComponent(`${t('callback_whatsapp_message')}${phone}`);
     window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank', 'noopener,noreferrer');
     setSubmitted(true);
@@ -24,16 +23,15 @@ export default function ContactSection() {
 
   return (
     <section className="bg-jet-black py-20">
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16">
         <div className="mb-12">
           <div className="w-16 h-1 bg-blood-red mb-4" />
-          <h2 className="text-4xl md:text-5xl font-black text-cream uppercase tracking-wider">
-            <span className="text-blood-red">★</span> {t('title')}
+          <h2 className="text-3xl md:text-5xl font-black text-cream uppercase tracking-wider">
+            <span className="text-gold">◆</span> {t('title')}
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* 1. Callback form */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
           <div className="bg-charcoal p-6 border-t-4 border-blood-red">
             <h3 className="text-cream font-black text-lg uppercase tracking-wider mb-4">
               {t('callback_title')}
@@ -60,20 +58,18 @@ export default function ContactSection() {
             )}
           </div>
 
-          {/* 2. Phone */}
           <div className="bg-charcoal p-6 border-t-4 border-gold">
             <h3 className="text-cream font-black text-lg uppercase tracking-wider mb-4">
               {t('phone_title')}
             </h3>
             <a
-              href={`tel:${phoneNumber}`}
-              className="block text-2xl font-black text-gold tracking-wider hover:text-blood-red transition-colors"
+              href={`tel:${phoneNumber.replace(/[^+\d]/g, '')}`}
+              className="block text-2xl font-black text-gold tracking-wider hover:text-blood-red transition-colors break-words"
             >
               {phoneNumber}
             </a>
           </div>
 
-          {/* 3. WhatsApp */}
           <div className="bg-charcoal p-6 border-t-4 border-blood-red">
             <h3 className="text-cream font-black text-lg uppercase tracking-wider mb-4">
               {t('whatsapp_title')}
@@ -88,7 +84,6 @@ export default function ContactSection() {
             </a>
           </div>
 
-          {/* 4. Instagram */}
           <div className="bg-charcoal p-6 border-t-4 border-gold">
             <h3 className="text-cream font-black text-lg uppercase tracking-wider mb-4">
               {t('instagram_title')}

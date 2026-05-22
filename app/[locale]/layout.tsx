@@ -1,17 +1,29 @@
 import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
+import { getMessages, setRequestLocale } from 'next-intl/server';
 import '../globals.css';
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
-  const t = await getTranslations({ locale, namespace: 'meta' });
+const seoTitle = 'Drive Pro — Аренда экскаватора в Алматы | Земляные работы';
+const seoDescription = 'Аренда экскаватора с оператором в Алматы и Казахстане. Экскаваторы 1.5т, 2т, 4т, фронтальный погрузчик, трактор. Первый заказ 80 000 ₸. Тел: +7 777 207-16-97';
+
+export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: t('title'),
-    description: t('description'),
+    title: seoTitle,
+    description: seoDescription,
+    keywords: [
+      'аренда экскаватора алматы',
+      'земляные работы алматы',
+      'экскаватор с оператором',
+      'мини экскаватор аренда',
+      'фронтальный погрузчик алматы',
+      'Drive Pro',
+    ],
+    openGraph: {
+      title: seoTitle,
+      description: seoDescription,
+      locale: 'ru_KZ',
+      type: 'website',
+    },
   };
 }
 
@@ -29,13 +41,5 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
   const messages = await getMessages();
 
-  return (
-    <html lang={locale}>
-      <body className="bg-jet-black text-cream font-oswald">
-        <NextIntlClientProvider messages={messages}>
-          {children}
-        </NextIntlClientProvider>
-      </body>
-    </html>
-  );
+  return <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>;
 }
