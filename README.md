@@ -1,3 +1,18 @@
+<!-- project-presentation:start -->
+
+![Drive Pro Earthworks — Bilingual equipment hire site for Almaty](.github/readme-header.svg)
+
+**[Open project](https://igor-vuta.github.io/drivePro-website/ru/)** · [Repository activity](https://github.com/igor-vuta/drivePro-website/activity)
+
+[![Last commit](https://img.shields.io/github/last-commit/igor-vuta/drivePro-website?style=flat-square&color=6366f1)](https://github.com/igor-vuta/drivePro-website/commits)
+[![Repository size](https://img.shields.io/github/repo-size/igor-vuta/drivePro-website?style=flat-square&color=6366f1)](https://github.com/igor-vuta/drivePro-website)
+
+**2** Locales · **4** Page routes · **Next.js** Static export
+
+*Project facts checked 2 October 2026. Activity badges update from GitHub.*
+
+<!-- project-presentation:end -->
+
 <div align="center">
 
 # 🚜 Drive Pro — Heavy Equipment Hire
