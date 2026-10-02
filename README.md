@@ -7,9 +7,9 @@
 [![Last commit](https://img.shields.io/github/last-commit/igor-vuta/drivePro-website?style=flat-square&color=6366f1)](https://github.com/igor-vuta/drivePro-website/commits)
 [![Repository size](https://img.shields.io/github/repo-size/igor-vuta/drivePro-website?style=flat-square&color=6366f1)](https://github.com/igor-vuta/drivePro-website)
 
-**2** Locales · **4** Page routes · **Next.js** Static export
+**3** Locales · **5** Page routes per locale · **Next.js** Static export
 
-*Project facts checked 2 October 2026. Activity badges update from GitHub.*
+*Activity badges update from GitHub.*
 
 <!-- project-presentation:end -->
 
@@ -21,21 +21,17 @@
 
 <div align="center">
 
-# 🚜 Drive Pro — Heavy Equipment Hire
+# 🚜 Drive Pro — Earthworks and mopeds
 
-**Production marketing site for a family-run earthworks company in Almaty, Kazakhstan — 200+ projects since 2018.**
+**Almaty website for excavator work with our operator and moped enquiries.**
 
 [![Live site](https://img.shields.io/badge/%F0%9F%8C%90%20Live-igor--vuta.github.io%2FdrivePro--website-2ea44f?style=for-the-badge)](https://igor-vuta.github.io/drivePro-website/)
 
-<img src="https://img.shields.io/badge/Next.js-14-000000?logo=nextdotjs&logoColor=white" />
+<img src="https://img.shields.io/badge/Next.js-16-000000?logo=nextdotjs&logoColor=white" />
 <img src="https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white" />
 <img src="https://img.shields.io/badge/Tailwind%20CSS-3-06B6D4?logo=tailwindcss&logoColor=white" />
-<img src="https://img.shields.io/badge/i18n-next--intl%20(RU%2FKK)-8A2BE2" />
+<img src="https://img.shields.io/badge/i18n-next--intl%20(RU%2FKK%2FEN)-8A2BE2" />
 <img src="https://img.shields.io/badge/Hosting-GitHub%20Pages-222?logo=github" />
-
-<br /><br />
-
-<img src="docs/screenshots/drivepro-hero.png" alt="Drive Pro — hero section" width="85%" />
 
 </div>
 
@@ -43,42 +39,45 @@
 
 ## About the project
 
-A real client site, not a tutorial build: Drive Pro hires out excavators (1.5 t, 2 t Caterpillar, 4 t Komatsu), Bobcat and heavy front loaders, and an MTZ Belarus tractor — operator and fuel included — for trenching, foundation pits, demolition, site clearing, and snow removal.
+The site gives visitors separate routes for excavator and earthworks enquiries and mopeds. Excavator work is offered only with our operator; each job is quoted individually after the task and site conditions are discussed. Moped details can be checked through the linked Instagram profile or by contacting Drive Pro directly. The site does not present fixed prices, current stock or a live social feed.
 
-The site's job is simple: **turn visitors into WhatsApp enquiries**. Everything is built around that — a clear equipment catalogue, transparent pricing tables, and a persistent call-to-action.
-
-## ✨ Features
-
-- 🌐 **Bilingual out of the box** — Russian / Kazakh via `next-intl`, with locale-aware routing (`/ru`, `/kz`)
-- 🏗 **Equipment catalogue** — cards with specs and per-unit pricing tables
-- 💬 **WhatsApp-first CTA** — one tap from any section to a pre-filled enquiry
-- 📱 **Fully responsive** — mobile-first layout for a customer base that browses on phones
-- 🔍 **SEO-tuned** — semantic markup, locale metadata, descriptive titles
-- ⚡ **Static export** — zero-server hosting on GitHub Pages, deployed automatically by CI
+The screenshots below show an earlier site layout and are kept as project history.
 
 <div align="center">
-<img src="docs/screenshots/drivepro-services.png" alt="Drive Pro — services and stats" width="85%" />
+<img src="docs/screenshots/drivepro-hero.png" alt="Earlier Drive Pro hero layout" width="85%" />
 </div>
 
-## 🛠 Tech stack
+## Site features
+
+- Russian, Kazakh and English pages under `/ru`, `/kz` and `/en`; Kazakh pages declare `lang=kk`.
+- Separate earthworks, quote, moped and contact pages in every locale.
+- Optional excavator brief with an editable WhatsApp draft, plus direct phone and WhatsApp actions.
+- Per-route canonical and language alternate metadata, sitemap and robots file.
+- Static export under `/drivePro-website` for GitHub Pages.
+
+<div align="center">
+<img src="docs/screenshots/drivepro-services.png" alt="Earlier Drive Pro services layout" width="85%" />
+</div>
+
+## Tech stack
 
 | Layer | Tools |
 |---|---|
-| Framework | Next.js 14 (App Router), static export |
+| Framework | Next.js 16 (App Router), static export |
 | Language | TypeScript |
 | Styling | Tailwind CSS |
-| i18n | next-intl (RU / KK), middleware-based locale routing |
-| CI/CD | GitHub Actions → GitHub Pages (`basePath` configured) |
+| i18n | next-intl (RU / KK / EN), generated locale routes |
+| Hosting | GitHub Pages with `/drivePro-website` base path |
 
-## 🚀 Run locally
+## Run locally
 
 ```bash
-npm install
-npm run dev      # http://localhost:3000
-npm run build    # static export to ./out
+fnm use
+npm ci
+npm run dev
 ```
 
-Deployment is automatic: every push to `main` triggers the GitHub Actions workflow that builds the static export and publishes it to GitHub Pages.
+Before updating the Pages build, run `npm run audit`, `npm run lint`, `npm run typecheck`, `npm test`, `npm run build` and `npm run check:export`. The export is written to `out/`. The existing GitHub Actions workflow builds and checks the site before its push-triggered Pages deployment.
 
 ---
 

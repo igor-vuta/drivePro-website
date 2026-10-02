@@ -1,18 +1,13 @@
 import type { MetadataRoute } from 'next';
+import { languageAlternates, locales, pages, siteUrl } from '@/lib/site';
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://drivepro.kz';
-const locales = ['ru', 'kz'];
-const pages = ['', '/services', '/pricing', '/contact'];
+export const dynamic = 'force-static';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
-
   return locales.flatMap(locale =>
     pages.map(page => ({
-      url: `${baseUrl}/${locale}${page}`,
-      lastModified: now,
-      changeFrequency: 'weekly' as const,
-      priority: page === '' ? 1 : 0.8,
+      url: siteUrl(locale, page),
+      alternates: { languages: languageAlternates(page) },
     }))
   );
 }

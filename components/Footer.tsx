@@ -5,11 +5,13 @@ export default function Footer() {
   const t = useTranslations('footer');
   const tNav = useTranslations('nav');
   const locale = useLocale();
+  const phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER || '+7 (777) 207-16-97';
 
   const links = [
     { href: `/${locale}`, label: tNav('home') },
     { href: `/${locale}/services`, label: tNav('services') },
     { href: `/${locale}/pricing`, label: tNav('pricing') },
+    { href: `/${locale}/mopeds`, label: tNav('mopeds') },
     { href: `/${locale}/contact`, label: tNav('contact') },
   ];
 
@@ -30,7 +32,7 @@ export default function Footer() {
             <ul className="space-y-2">
               {links.map(link => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-cream/70 hover:text-blood-red text-sm tracking-wider transition-colors">
+                  <Link href={link.href} className="text-cream/70 hover:text-gold text-sm tracking-wider transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -41,10 +43,11 @@ export default function Footer() {
           <div>
             <h4 className="text-gold font-black text-sm tracking-widest uppercase mb-4">{t('social_title')}</h4>
             <div className="space-y-2">
-              <a href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '77772071697'}`} target="_blank" rel="noopener noreferrer" className="block text-cream/70 hover:text-blood-red text-sm tracking-wider transition-colors">
+              <a href={`tel:${phoneNumber.replace(/[^+\d]/g, '')}`} className="block text-cream hover:text-gold text-sm tracking-wider transition-colors">{phoneNumber}</a>
+              <a href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '77772071697'}`} target="_blank" rel="noopener noreferrer" className="block text-cream/70 hover:text-gold text-sm tracking-wider transition-colors">
                 WhatsApp
               </a>
-              <a href={process.env.NEXT_PUBLIC_INSTAGRAM_URL || 'https://www.instagram.com/drivepro.moped.almaty'} target="_blank" rel="noopener noreferrer" className="block text-cream/70 hover:text-blood-red text-sm tracking-wider transition-colors break-all">
+              <a href={process.env.NEXT_PUBLIC_INSTAGRAM_URL || 'https://www.instagram.com/drivepro.moped.almaty'} target="_blank" rel="noopener noreferrer" className="block text-cream/70 hover:text-gold text-sm tracking-wider transition-colors break-all">
                 Instagram
               </a>
             </div>
@@ -52,7 +55,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-charcoal pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-cream/40 text-xs tracking-wider text-center md:text-left">{t('copyright')}</p>
+          <p className="text-cream/70 text-sm tracking-wider text-center md:text-left">{t('copyright')}</p>
           <div className="flex gap-2 text-blood-red text-xl font-black" aria-hidden>
             <span>—</span><span>◆</span><span>—</span>
           </div>

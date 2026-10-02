@@ -1,81 +1,49 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import PricingBanner from '@/components/PricingBanner';
-import Link from 'next/link';
-
-const machines = ['exc_1_5', 'exc_2', 'exc_4', 'loader_small', 'loader_big', 'tractor'] as const;
+import QuoteBrief from '@/components/QuoteBrief';
+import { locales, pageMetadata, type Locale } from '@/lib/site';
 
 export function generateStaticParams() {
-  return [{ locale: 'ru' }, { locale: 'kz' }];
+  return locales.map(locale => ({ locale }));
 }
 
-export default async function PricingPage({ params: { locale } }: { params: { locale: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }) {
+  const { locale } = await params;
+  return pageMetadata(locale, 'pricing');
+}
+
+export default async function PricingPage({ params }: { params: Promise<{ locale: Locale }> }) {
+  const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations('pricing');
-  const tEq = await getTranslations('equipment');
+  const t = await getTranslations('quote');
+  const phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER || '+7 (777) 207-16-97';
+  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '77772071697';
 
   return (
-    <main className="bg-jet-black min-h-screen">
+    <main className="min-h-screen bg-jet-black">
       <Navbar />
-
-      <section className="relative bg-charcoal py-16 md:py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-blood-red opacity-10" style={{ clipPath: 'polygon(70% 0, 100% 0, 100% 100%, 50% 100%)' }} />
-        <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16 relative z-10">
-          <div className="w-16 h-1 bg-blood-red mb-4" />
-          <h1 className="text-3xl md:text-6xl font-black text-cream uppercase tracking-wider">
-            <span className="text-gold">◆</span> {t('page_title')}
-          </h1>
-          <p className="text-gold font-bold tracking-widest text-base md:text-xl uppercase mt-4">{t('page_tagline')}</p>
-        </div>
-      </section>
-
-      <PricingBanner />
-
-      <section className="bg-jet-black py-12">
-        <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-16">
-          <div className="border-2 border-gold p-6 md:p-8 text-center">
-            <p className="text-gold font-bold text-base md:text-lg tracking-wide">{t('first_order_note')}</p>
+      <header className="relative overflow-hidden bg-charcoal px-4 py-12 md:px-8 md:py-20 lg:px-16">
+        <div className="pointer-events-none absolute inset-0 bg-blood-red/10" style={{ clipPath: 'polygon(70% 0, 100% 0, 100% 100%, 50% 100%)' }} />
+        <div className="relative mx-auto max-w-7xl">
+          <div className="mb-4 h-1 w-16 bg-blood-red" />
+          <h1 className="max-w-5xl text-3xl font-black uppercase tracking-wide text-cream md:text-6xl">{t('title')}</h1>
+          <p className="mt-5 max-w-3xl text-base leading-relaxed text-cream md:text-lg">{t('intro')}</p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <a href={`tel:${phoneNumber.replace(/[^+\d]/g, '')}`} className="action-primary">{t('call_action')}</a>
+            <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer" className="action-outline">WhatsApp</a>
           </div>
         </div>
-      </section>
+      </header>
 
-      <section className="py-12 pb-20">
-        <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-16">
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[640px] border-collapse">
-              <thead>
-                <tr className="bg-blood-red">
-                  <th className="text-cream font-black text-sm uppercase tracking-widest py-4 px-4 md:px-6 text-left">{t('table_machine')}</th>
-                  <th className="text-cream font-black text-sm uppercase tracking-widest py-4 px-4 md:px-6 text-center">{t('table_hour')}</th>
-                  <th className="text-cream font-black text-sm uppercase tracking-widest py-4 px-4 md:px-6 text-center">{t('table_shift')}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {machines.map((key, i) => (
-                  <tr key={key} className={i % 2 === 0 ? 'bg-charcoal' : 'bg-jet-black'}>
-                    <td className="text-cream font-bold text-sm uppercase tracking-wider py-4 px-4 md:px-6">{tEq(`machines.${key}.name`)}</td>
-                    <td className="text-gold font-black text-center py-4 px-4 md:px-6">{t(`machines.${key}.hour`)}</td>
-                    <td className="text-gold font-black text-center py-4 px-4 md:px-6">{t(`machines.${key}.shift`)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          <p className="text-cream/60 text-xs tracking-wide uppercase mt-4 text-center">{t('fine_print')}</p>
-
-          <div className="mt-10 text-center">
-            <Link
-              href={`/${locale}/contact`}
-              className="inline-block w-full sm:w-auto px-12 py-5 bg-blood-red text-cream font-black text-sm tracking-widest uppercase hover:bg-deep-red transition-colors"
-            >
-              {t('call_to_action')}
-            </Link>
-          </div>
+      <section className="bg-blood-red px-4 py-8 md:px-8 lg:px-16" aria-labelledby="quote-factors">
+        <div className="mx-auto max-w-7xl">
+          <h2 id="quote-factors" className="text-2xl font-black uppercase tracking-wide text-cream md:text-3xl">{t('factors_title')}</h2>
+          <p className="mt-3 max-w-4xl text-base leading-relaxed text-cream">{t('factors_text')}</p>
+          <p className="mt-3 max-w-4xl text-sm text-cream">{t('other_note')}</p>
         </div>
       </section>
-
+      <QuoteBrief />
       <Footer />
     </main>
   );

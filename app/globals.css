@@ -5,10 +5,43 @@
 :root {
   --foreground-rgb: 245, 240, 232;
   --background-start-rgb: 10, 10, 10;
-  --font-oswald: 'Impact', 'Arial Narrow', Arial, sans-serif;
+  --font-display: Impact, 'Arial Narrow', Arial, sans-serif;
 }
 
 body {
   color: rgb(var(--foreground-rgb));
   background: #0A0A0A;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4, nav, button, .display-type {
+  font-family: var(--font-display);
+}
+
+:focus-visible {
+  outline: 3px solid #D4A017;
+  outline-offset: 3px;
+}
+
+@layer components {
+  .action-primary {
+    @apply inline-flex min-h-12 items-center justify-center bg-blood-red px-6 py-3 text-center text-sm font-black uppercase tracking-wider text-cream transition-colors hover:bg-deep-red;
+  }
+
+  .action-outline {
+    @apply inline-flex min-h-12 items-center justify-center border-2 border-gold px-6 py-3 text-center text-sm font-black uppercase tracking-wider text-cream transition-colors hover:bg-gold hover:text-jet-black;
+  }
+
+  .form-field {
+    @apply w-full rounded-none border border-cream/80 bg-jet-black px-4 py-3 text-base text-cream placeholder:text-cream/80;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

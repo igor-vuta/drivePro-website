@@ -2,75 +2,77 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useTranslations, useLocale } from 'next-intl';
-import { useState } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import { locales, type Locale } from '@/lib/site';
+
+const languageNames: Record<Locale, string> = { ru: 'RU', kz: 'ҚАЗ', en: 'EN' };
 
 export default function Navbar() {
   const t = useTranslations('nav');
-  const locale = useLocale();
+  const locale = useLocale() as Locale;
   const pathname = usePathname();
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const otherLocale = locale === 'ru' ? 'kz' : 'ru';
-  const switchedPath = pathname.replace(`/${locale}`, `/${otherLocale}`);
+  const route = pathname.match(/\/(?:ru|kz|en)(\/.*)?$/)?.[1] || '';
+  const phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER || '+7 (777) 207-16-97';
 
   const links = [
-    { href: `/${locale}`, label: t('home') },
-    { href: `/${locale}/services`, label: t('services') },
-    { href: `/${locale}/pricing`, label: t('pricing') },
-    { href: `/${locale}/contact`, label: t('contact') },
+    { path: '', label: t('home') },
+    { path: '/services', label: t('services') },
+    { path: '/pricing', label: t('pricing') },
+    { path: '/mopeds', label: t('mopeds') },
+    { path: '/contact', label: t('contact') },
   ];
 
+  const languages = (
+    <div className="flex flex-wrap items-center gap-2" aria-label={t('languages')}>
+      {locales.map(target => (
+        <Link
+          key={target}
+          href={`/${target}${route}`}
+          hrefLang={target === 'kz' ? 'kk' : target}
+          lang={target === 'kz' ? 'kk' : target}
+          aria-current={target === locale ? 'page' : undefined}
+          className={`inline-flex min-h-11 min-w-11 items-center justify-center border px-2 text-xs font-black tracking-wider ${target === locale ? 'border-gold bg-gold text-jet-black' : 'border-gold text-gold hover:bg-gold hover:text-jet-black'}`}
+        >
+          {languageNames[target]}
+        </Link>
+      ))}
+    </div>
+  );
+
   return (
-    <nav className="sticky top-0 z-50 bg-jet-black border-b-2 border-blood-red">
-      <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16 flex items-center justify-between h-16 gap-4">
-        <Link href={`/${locale}`} className="min-w-0 flex items-center gap-2 text-blood-red font-black text-base sm:text-lg md:text-xl tracking-widest uppercase">
-          <span className="text-gold text-xl md:text-2xl">◆</span>
+    <nav className="sticky top-0 z-50 border-b-2 border-blood-red bg-jet-black" aria-label={t('company')}>
+      <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between gap-3 px-4 md:px-8 lg:px-16">
+        <Link href={`/${locale}`} className="flex min-w-0 items-center gap-2 text-base font-black uppercase tracking-widest text-cream sm:text-lg">
+          <span className="text-xl text-gold" aria-hidden="true">◆</span>
           <span className="truncate">{t('company')}</span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-6 lg:gap-8">
+        <div className="hidden items-center gap-4 lg:flex">
           {links.map(link => (
-            <Link key={link.href} href={link.href} className="text-cream hover:text-blood-red transition-colors text-sm font-bold tracking-widest uppercase whitespace-nowrap">
+            <Link key={link.path} href={`/${locale}${link.path}`} className="whitespace-nowrap text-sm font-bold uppercase tracking-wide text-cream hover:text-gold">
               {link.label}
             </Link>
           ))}
-          <Link href={switchedPath} className="ml-2 px-3 py-1 border border-gold text-gold text-xs font-bold tracking-widest hover:bg-gold hover:text-jet-black transition-colors">
-            {otherLocale.toUpperCase()}
-          </Link>
+          {languages}
         </div>
 
-        <button
-          className="md:hidden text-cream text-2xl leading-none"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
-          aria-expanded={menuOpen}
-        >
-          {menuOpen ? '✕' : '☰'}
-        </button>
+        <div className="flex items-center gap-3 lg:hidden">
+          <a href={`tel:${phoneNumber.replace(/[^+\d]/g, '')}`} className="text-sm font-bold text-gold">{t('contact')}</a>
+          <details className="group relative">
+            <summary className="flex min-h-11 min-w-11 cursor-pointer list-none items-center justify-center border border-gold text-gold" aria-label={t('open_menu')}>
+              <span aria-hidden="true">☰</span>
+            </summary>
+            <div className="absolute right-0 top-full mt-2 w-[min(90vw,22rem)] border border-blood-red bg-charcoal p-4 shadow-xl">
+              {links.map(link => (
+                <Link key={link.path} href={`/${locale}${link.path}`} className="block border-b border-jet-black px-2 py-3 text-sm font-bold uppercase tracking-wide text-cream hover:text-gold">
+                  {link.label}
+                </Link>
+              ))}
+              <div className="pt-4">{languages}</div>
+            </div>
+          </details>
+        </div>
       </div>
-
-      {menuOpen && (
-        <div className="md:hidden bg-charcoal border-t border-blood-red">
-          {links.map(link => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="block px-4 py-3 text-cream hover:text-blood-red font-bold tracking-widest uppercase text-sm border-b border-jet-black"
-              onClick={() => setMenuOpen(false)}
-            >
-              {link.label}
-            </Link>
-          ))}
-          <Link
-            href={switchedPath}
-            className="block px-4 py-3 text-gold font-bold tracking-widest text-sm border-b border-jet-black"
-            onClick={() => setMenuOpen(false)}
-          >
-            {otherLocale.toUpperCase()}
-          </Link>
-        </div>
-      )}
     </nav>
   );
 }

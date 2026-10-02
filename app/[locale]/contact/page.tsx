@@ -2,49 +2,34 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ContactSection from '@/components/ContactSection';
+import { locales, pageMetadata, type Locale } from '@/lib/site';
 
 export function generateStaticParams() {
-  return [{ locale: 'ru' }, { locale: 'kz' }];
+  return locales.map(locale => ({ locale }));
 }
 
-export default async function ContactPage({ params: { locale } }: { params: { locale: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }) {
+  const { locale } = await params;
+  return pageMetadata(locale, 'contact');
+}
+
+export default async function ContactPage({ params }: { params: Promise<{ locale: Locale }> }) {
+  const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations('contact');
 
   return (
-    <main className="bg-jet-black min-h-screen">
+    <main className="min-h-screen bg-jet-black">
       <Navbar />
-
-      <section className="relative bg-charcoal py-16 md:py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-blood-red opacity-10" style={{ clipPath: 'polygon(70% 0, 100% 0, 100% 100%, 50% 100%)' }} />
-        <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16 relative z-10">
-          <div className="w-16 h-1 bg-blood-red mb-4" />
-          <h1 className="text-3xl md:text-6xl font-black text-cream uppercase tracking-wider">
-            <span className="text-gold">◆</span> {t('title')}
-          </h1>
+      <header className="bg-charcoal px-4 py-12 md:px-8 md:py-20 lg:px-16">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-4 h-1 w-16 bg-blood-red" />
+          <h1 className="text-3xl font-black uppercase tracking-wide text-cream md:text-6xl">{t('title')}</h1>
+          <p className="mt-4 max-w-3xl text-base leading-relaxed text-cream md:text-lg">{t('intro')}</p>
         </div>
-      </section>
-
-      <ContactSection />
-
-      <section className="bg-charcoal py-12">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16">
-          <div
-            className="w-full h-64 md:h-96 flex items-center justify-center"
-            style={{
-              background: '#0D0D0D',
-              backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 30px, rgba(212,160,23,0.07) 30px, rgba(212,160,23,0.07) 31px), repeating-linear-gradient(90deg, transparent, transparent 30px, rgba(212,160,23,0.07) 30px, rgba(212,160,23,0.07) 31px)',
-            }}
-          >
-            <span className="text-gold font-bold text-sm md:text-lg tracking-widest uppercase border-2 border-gold/40 px-4 md:px-8 py-4 bg-jet-black/80 text-center">
-              {t('map_placeholder')}
-            </span>
-          </div>
-          <p className="text-center text-cream/50 text-xs md:text-sm tracking-wider mt-6 uppercase">{t('service_area')}</p>
-          <p className="text-center text-cream/60 text-xs md:text-sm tracking-wider mt-2 uppercase">{t('languages')}</p>
-        </div>
-      </section>
-
+      </header>
+      <ContactSection showHeading={false} />
+      <p className="mx-auto max-w-7xl px-4 pb-12 text-sm text-cream/90 md:px-8 lg:px-16">{t('service_area')}</p>
       <Footer />
     </main>
   );

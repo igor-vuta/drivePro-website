@@ -5,24 +5,40 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint . --max-warnings=0",
+    "typecheck": "tsc --noEmit",
+    "check:export": "node scripts/check-export.mjs",
+    "test": "node --test scripts/test-quote.mjs",
+    "audit": "npm audit --audit-level=low",
+    "commitlint": "commitlint"
   },
   "dependencies": {
-    "next": "14.2.29",
-    "react": "^18",
-    "react-dom": "^18",
-    "next-intl": "^3.26.5"
+    "next": "16.3.8",
+    "next-intl": "4.14.9",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@commitlint/cli": "21.2.3",
+    "@commitlint/config-conventional": "21.2.3",
+    "@eslint-react/eslint-plugin": "5.23.5",
+    "@eslint/js": "10.0.1",
+    "@next/eslint-plugin-next": "16.3.8",
     "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "autoprefixer": "^10.0.1",
+    "eslint": "10.12.0",
+    "eslint-plugin-jsx-a11y-x": "0.2.0",
+    "eslint-plugin-react-hooks": "7.1.1",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.29"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "8.71.0"
+  },
+  "allowScripts": {
+    "@parcel/watcher@2.6.0": true,
+    "@swc/core@1.16.13": true,
+    "fsevents@2.3.3": true
   }
 }

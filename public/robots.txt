@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://drivepro.kz/sitemap.xml
+Sitemap: https://igor-vuta.github.io/drivePro-website/sitemap.xml
