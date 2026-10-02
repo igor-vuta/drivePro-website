@@ -13,6 +13,12 @@
 
 <!-- project-presentation:end -->
 
+<!-- project-pattern:start -->
+
+![An excavator with a cab, articulated boom, bucket, and crawler tracks.](.github/project-pattern.svg)
+
+<!-- project-pattern:end -->
+
 <div align="center">
 
 # 🚜 Drive Pro — Heavy Equipment Hire
