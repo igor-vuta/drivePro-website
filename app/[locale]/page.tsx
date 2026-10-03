@@ -1,5 +1,6 @@
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
+import OptionalPlay from '@/components/OptionalPlay';
 import WhyUs from '@/components/WhyUs';
 import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
@@ -22,6 +23,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
     <main>
       <Navbar />
       <Hero />
+      <OptionalPlay />
       <WhyUs />
       <ContactSection />
       <Footer />

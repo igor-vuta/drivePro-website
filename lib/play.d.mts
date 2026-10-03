@@ -1,0 +1,10 @@
+export type PlayState = { phase: 'active' | 'paused' | 'completed'; cleared: number };
+export const pileNumbers: number[];
+export function newPlayState(paused?: boolean): PlayState;
+export function movedCount(state: PlayState): number;
+export function nextPile(state: PlayState): number | null;
+export function movePile(state: PlayState, number: number): PlayState;
+export function pausePlay(state: PlayState): PlayState;
+export function resumePlay(state: PlayState): PlayState;
+export function resetPlay(): PlayState;
+export function acceptsLoad(request: number, currentRequest: number, mounted: boolean): boolean;

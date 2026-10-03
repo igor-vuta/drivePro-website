@@ -41,7 +41,16 @@
     "other_title": "Tractor or loader questions",
     "other_text": "For tractor or loader work, tell us the task and ask about availability and terms.",
     "quote_action": "Request an excavator quote",
-    "call_action": "Call to discuss"
+    "call_action": "Call to discuss",
+    "faq_title": "Common questions",
+    "faq_operator_question": "Can I hire an excavator without your operator?",
+    "faq_operator_answer": "No. Excavator work is only available with our operator; we do not provide an excavator without our operator.",
+    "faq_price_question": "Why does the price need an individual quote?",
+    "faq_price_answer": "The quote depends on the job and site conditions. Describe the work and what you know about the location, access and ground; we can discuss the price after clarifying the conditions.",
+    "faq_unknown_question": "Can I request a quote without knowing the volume or dimensions?",
+    "faq_unknown_answer": "Yes. A short job description is enough to start the conversation. Volume and dimensions are optional in the brief, and unknown details can be discussed later. You can also call us directly.",
+    "faq_whatsapp_question": "Does opening WhatsApp send my enquiry?",
+    "faq_whatsapp_answer": "No. Opening WhatsApp or a draft does not send the enquiry. Review the message and press Send in WhatsApp yourself."
   },
   "quote": {
     "title": "Request a quote for excavator work in Almaty",
@@ -144,6 +153,26 @@
     "links_title": "PAGES",
     "social_title": "CONTACT",
     "copyright": "© 2026 Drive Pro"
+  },
+  "play": {
+    "heading": "Clear the site",
+    "intro": "Move three soil piles to reveal an illustration.",
+    "play": "Play",
+    "loading": "Loading illustration…",
+    "move_pile": "Move pile {N}",
+    "progress": "Piles moved: {count} of 3.",
+    "pause": "Pause",
+    "paused": "Play paused.",
+    "resume": "Resume",
+    "complete": "All three piles moved. Illustration revealed.",
+    "reset": "Reset",
+    "reset_status": "Piles reset.",
+    "exit": "Exit play",
+    "load_failure": "Illustration could not load. The links below still work.",
+    "illustration_note": "Illustration only; it does not show actual equipment or availability.",
+    "equipment_link": "Excavator work",
+    "moped_link": "Browse mopeds",
+    "contact_link": "Contact"
   },
   "seo": {
     "home": {

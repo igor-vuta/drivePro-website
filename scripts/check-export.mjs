@@ -59,6 +59,32 @@ for (const [locale, language] of Object.entries(locales)) {
     assert.equal(organization.name, 'Drive Pro');
   }
 
+  const home = readFileSync(`out/${locale}/index.html`, 'utf8');
+  const play = home.match(/<section\b[^>]*class="optional-play"[^>]*>([\s\S]*?)<\/section>/)?.[1];
+  assert.ok(play, `Missing static play shell: ${locale}`);
+  for (const key of ['heading', 'intro', 'illustration_note', 'equipment_link', 'moped_link', 'contact_link']) {
+    assert.ok(play.includes(messages.play[key]), `Missing static play ${key}: ${locale}`);
+  }
+  for (const page of ['services', 'mopeds', 'contact']) {
+    assert.ok(play.includes(`href="${route(locale, page)}"`), `Missing play route ${page}: ${locale}`);
+  }
+  assert.doesNotMatch(play, /<(?:button|svg)\b/, `Idle play contains an inert control or scene: ${locale}`);
+
+  const services = readFileSync(`out/${locale}/services/index.html`, 'utf8');
+  const faq = services.match(/<section\b[^>]*aria-labelledby="services-faq-title"[^>]*>([\s\S]*?)<\/section>/)?.[1];
+  assert.ok(faq, `Missing visible services FAQ: ${locale}`);
+  assert.ok(faq.includes(`<h2 id="services-faq-title"`), `Missing FAQ heading: ${locale}`);
+  assert.ok(faq.includes(messages.services.faq_title), `Missing translated FAQ heading: ${locale}`);
+  assert.match(faq, /<dl\b/, `Missing FAQ description list: ${locale}`);
+  assert.equal((faq.match(/<dt\b/g) || []).length, 4, `Wrong FAQ question count: ${locale}`);
+  assert.equal((faq.match(/<dd\b/g) || []).length, 4, `Wrong FAQ answer count: ${locale}`);
+  for (const key of ['operator', 'price', 'unknown', 'whatsapp']) {
+    const question = messages.services[`faq_${key}_question`];
+    const answer = messages.services[`faq_${key}_answer`];
+    assert.ok(faq.includes(`>${question}</dt>`), `Missing visible FAQ question ${key}: ${locale}`);
+    assert.ok(faq.includes(`>${answer}</dd>`), `Missing visible FAQ answer ${key}: ${locale}`);
+  }
+
   const contact = readFileSync(`out/${locale}/contact/index.html`, 'utf8');
   assert.match(contact, /<label\b[^>]*for="callback-phone"/, `Missing callback label: ${locale}`);
   assert.match(contact, /<input\b[^>]*id="callback-phone"[^>]*aria-describedby="callback-help"/, `Missing callback help: ${locale}`);
@@ -83,4 +109,4 @@ for (const [locale, language] of Object.entries(locales)) {
 }
 
 for (const file of ['index.html', 'sitemap.xml', 'robots.txt', '.nojekyll']) assert.ok(existsSync(join('out', file)));
-stdout.write('Checked 15 localized routes, metadata, sitemap, links, assets, quote, mopeds and contact actions.\n');
+stdout.write('Checked 15 localized routes, metadata, sitemap, links, assets, static play shells, services FAQ, quote, mopeds and contact actions.\n');

@@ -8,7 +8,7 @@
     "lint": "eslint . --max-warnings=0",
     "typecheck": "tsc --noEmit",
     "check:export": "node scripts/check-export.mjs",
-    "test": "node --test scripts/test-quote.mjs",
+    "test": "node --test scripts/test-quote.mjs scripts/test-play.mjs",
     "audit": "npm audit --audit-level=low",
     "commitlint": "commitlint"
   },

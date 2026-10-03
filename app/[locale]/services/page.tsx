@@ -20,6 +20,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
   const phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER || '+7 (777) 207-16-97';
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '77772071697';
   const sections = ['operator', 'jobs', 'access', 'other'] as const;
+  const questions = ['operator', 'price', 'unknown', 'whatsapp'] as const;
 
   return (
     <main className="min-h-screen bg-jet-black">
@@ -45,6 +46,17 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
             <p className="mt-3 text-base leading-relaxed text-cream/90">{t(`${key}_text`)}</p>
           </article>
         ))}
+      </section>
+      <section className="mx-auto max-w-7xl px-4 pb-12 md:px-8 md:pb-20 lg:px-16" aria-labelledby="services-faq-title">
+        <h2 id="services-faq-title" className="text-3xl font-black uppercase tracking-wide text-cream">{t('faq_title')}</h2>
+        <dl className="mt-6 grid gap-6 md:grid-cols-2">
+          {questions.map(key => (
+            <div key={key} className="border-t-4 border-gold bg-charcoal p-6">
+              <dt className="text-xl font-black text-cream">{t(`faq_${key}_question`)}</dt>
+              <dd className="mt-3 text-base leading-relaxed text-cream/90">{t(`faq_${key}_answer`)}</dd>
+            </div>
+          ))}
+        </dl>
       </section>
       <Footer />
     </main>

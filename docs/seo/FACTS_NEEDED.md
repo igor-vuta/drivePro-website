@@ -1,0 +1,12 @@
+# Drive Pro source gaps — private evidence checklist
+
+This is a checklist for later owner and specialist review, not an approval request or a message to send. Source: `PROJECT.md` §§Goals 1–2, `DESIGN.md`, `docs/content/CLAIMS_AND_REVIEW.md` and the current localized routes. Do not turn an unchecked item into customer-facing fact.
+
+- [ ] **Equipment:** exact excavator models, dimensions/clearance, attachments, operator arrangement, verified photos, maintenance or safety details safe to publish, and evidence of actual availability. Confirm which jobs and site conditions each machine can handle; no machine suitability is assumed.
+- [ ] **Real jobs and media:** completed job types, locations suitable for public description, dates, outcomes that can be evidenced, photograph/video ownership and permission from any people or property owners shown. Stock imagery is not a fleet or job record.
+- [ ] **Coverage:** actual Almaty service boundaries, any surrounding areas, travel conditions and whether a particular site can be served. The source mention of Almaty does not verify every district or area beyond it.
+- [ ] **Tractor and loader:** whether each is offered, with or without operator, exact work scope, equipment details, availability and quoting terms. The excavator policy does not settle these terms.
+- [ ] **Mopeds:** sale, rental or another arrangement; models/specifications, condition, inventory and update policy, prices/terms if any, and approved descriptions/media. Verify Instagram account ownership, usage rights and whether any Stories connection is feasible before claiming a feed.
+- [ ] **Contact:** owner-confirmed active phone and WhatsApp destinations, any environment override, real call/message receipt tests with permission, and the correct public production URL. A link opening in a browser is not delivery evidence.
+- [ ] **Languages:** fluent Kazakh review of every published page and the new FAQ, especially operator-only and quote wording; ordinary RU/EN editorial review. No human language review is recorded by this candidate.
+- [ ] **Access and measurement:** confirmed production host; Search Console, Yandex Webmaster and relevant local profile ownership/access, site verification and baseline exports. Any connection or submission is an external task. Define an approved privacy-minimal way to distinguish action clicks from received and qualified enquiries before collecting data.
