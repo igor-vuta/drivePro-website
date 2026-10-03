@@ -1,0 +1,13 @@
+.controller { margin-top: 16px; }
+.scene { display: block; width: 100%; max-width: 900px; height: auto; aspect-ratio: 3 / 1; margin: 0 auto; background: #1A1A1A; }
+.progress { margin-top: 12px; }
+.piles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 12px; }
+.pile { background: #1A1A1A; }
+.controls { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
+.controls :global(.optional-play-action) { background: #1A1A1A; }
+.controller :global(.optional-play-action:disabled) { opacity: .65; cursor: default; }
+
+@media (max-width: 600px) {
+  .scene { height: 250px; aspect-ratio: auto; }
+  .piles { grid-template-columns: 1fr; }
+}
