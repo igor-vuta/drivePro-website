@@ -13,6 +13,10 @@ export default defineConfig([
     ...js.configs.recommended,
   },
   {
+    files: ['lib/stories.mjs', 'scripts/sync-instagram-stories.mjs', 'scripts/test-stories.mjs'],
+    languageOptions: { globals: { URL: 'readonly', fetch: 'readonly', AbortSignal: 'readonly' } },
+  },
+  {
     files: ['postcss.config.js'],
     languageOptions: { globals: { module: 'readonly' } },
   },

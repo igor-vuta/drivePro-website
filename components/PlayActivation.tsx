@@ -75,7 +75,7 @@ export default function PlayActivation() {
   if (!ready) return null;
 
   return (
-    <div className="optional-play-enhancement">
+    <div className="optional-play-enhancement" data-play-open={mode === 'open'}>
       {mode !== 'open' && (
         <button ref={playRef} type="button" className="optional-play-action optional-play-start" onClick={play} aria-disabled={mode === 'loading'}>
           {t('play')}

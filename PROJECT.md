@@ -107,22 +107,23 @@ Use the answers to prepare a useful summary. A narrow-access answer can suggest 
 
 Before leaving the site, show an editable summary and two actions:
 
-- **Open WhatsApp with this message.** Encode the selected language and actual answers correctly. Explain that the customer still needs to send the message. Leave unknown answers as “not sure / to discuss”.
+- **Open WhatsApp with this message.** Encode the selected language and actual answers correctly. Explain that the customer still needs to send the message. Omit blank, missing and whitespace-only answers. Preserve explicitly entered answers such as “not sure” or “0”. If every answer is blank, use only a short generic enquiry about excavator work with our operator, without labeled lines or the longer closing request.
 - **Call us.** Keep the summary visible as talking points, with a copy option.
 
-Example Russian WhatsApp draft:
+Example Russian WhatsApp draft with partial answers (only provided fields appear):
 
 ```text
-Здравствуйте! Нужен экскаватор с вашим оператором.
-Работа: [вид работ / нужно обсудить]
-Место: [район или адрес / нужно уточнить]
-Дата: [желаемая дата / гибко]
-Объём или размеры: [ответ / не знаю]
-Проезд и ограничения: [ответ / нужно уточнить]
-Грунт и другие условия: [ответ / нужно уточнить]
-Вывоз или погрузка грунта: [ответ / нужно обсудить]
-Подскажите подходящую технику, доступность и стоимость.
-При необходимости отправлю фото или видео участка.
+Здравствуйте! Нужны работы экскаватора с вашим оператором в Алматы.
+Работа: Траншея
+Место: Алматы
+Объём или размеры: Не знаю
+Подскажите, возможна ли работа, какая техника подойдёт и какова будет индивидуальная стоимость. При необходимости позже отправлю фото или видео участка.
+```
+
+If all fields are blank, the Russian draft is only:
+
+```text
+Здравствуйте! Подскажите, пожалуйста, условия работы экскаватора с вашим оператором в Алматы.
 ```
 
 Provide equivalent natural Kazakh and English messages. Photos/videos can be sent in WhatsApp; do not add a website upload service unless it is needed and separately designed.
@@ -155,13 +156,17 @@ Design these states explicitly:
 - The operator requirement and individual excavator quote policy are visible throughout the relevant journey.
 - The moped carousel works on touch and keyboard, with tested empty, stale and failed-feed states. Automatic sync is described as complete only after a real connected-account verification.
 
-## Goal 3 — fresh design and optional play
+## Goal 3 — a clear animated welcome
 
 Use a coherent Drive Pro identity, clear typography, real equipment/moped media and a strong mobile layout. Preserve useful existing branding where it fits. The two customer choices must be understandable before visitors scroll into decorative content.
 
-Proposed interaction: **“Clear the site”** — a short excavator mini-game where visitors move a few piles of soil to reveal a moped or a playful Drive Pro scene. Touch or keyboard controls and a short completion make it approachable. A simple animated scene is acceptable if full 3D adds too much cost or complexity.
+Owner feedback on 2026-10-05 supersedes the previous interactive 3D mini-game requirement. The home page now greets visitors with two polished rendered vehicle illustrations and guides the existing equipment/moped choices immediately. These are rendered 3D illustrations animated with CSS, not interactive meshes or photographs of available fleet/stock. Retain the previous game source for history, but do not load it on entry.
 
-Keep this below the primary customer routes and behind an explicit play action. Load its assets on demand, pause when hidden, provide a static fallback and respect reduced motion. No contact action, service content or navigation should depend on playing it.
+Use a short 1.2–2.2 second arrival that settles once per page display. Text, links, language choice and contacts remain usable from the first frame. No loops, sound, CTA delay, timed choice or forced focus. No JavaScript, reduced motion, hidden-page return and media failure keep a complete static decision page. Make the primary equipment policy explicit: only with our operator, with an individual quote.
+
+The home contains compact brand/Almaty context, one category headline, two illustrated route links with short helpers/verb actions, direct contacts and a small illustration note. Move full Instagram content to mopeds and retain the useful service/quote/contact content on those routes. The bare entry URL shows the same Russian welcome directly, using the existing primary language, with visible RU/ҚАЗ/EN choices; localized direct URLs remain unchanged and the bare entry canonical points to `/ru/`.
+
+The saved Highlights gallery remains a useful moped-route fallback and does not fulfill fresh Stories connection, which still needs verified owner account access and expiry/refresh evidence.
 
 Performance target: good mobile [Core Web Vitals](https://web.dev/articles/vitals) where field data is available (LCP ≤ 2.5 s, INP ≤ 200 ms, CLS ≤ 0.1 at the 75th percentile). Use repeatable lab measurements while traffic is insufficient, and record them as lab results. Agree an asset/dependency budget in `DESIGN.md` before adding 3D libraries.
 
@@ -185,10 +190,10 @@ Accept the visual work when both routes remain easy to use on mobile, keyboard n
 | 1. SEO foundation | Three-language core content, URL/metadata/schema corrections, service-intent pages and measurement setup | Static output and browser checks; production/indexing checks when released and access is available |
 | 2. Customer routes | Two-choice entry, individual quote journey, operator rule, ongoing contact and prepared messages | End-to-end mobile checks in RU/KK/EN with complete and partial answers |
 | 3. Moped updates | Integration feasibility result, carousel and permanent supporting content | Connected-account refresh test or reviewed fallback; expiry/failure checks |
-| 4. Visual refinement and play | Reviewed redesign, optional animation/game and optimized assets | Before/after screenshots, accessibility and performance results |
+| 4. Animated welcome | Reviewed concise welcome, greeting motion and optimized illustrated assets | Before/after screenshots, accessibility and performance results |
 | 5. Search growth | Real job content, confirmed local listing improvements and query-led refinement | Search/enquiry trend reviews at agreed intervals |
 
-Design work can support earlier phases, but the optional game should follow the SEO and contact foundations. Work within the existing hosting/architecture until a demonstrated requirement justifies a change.
+Design work supports the two immediate customer choices while preserving the SEO and contact foundations. Work within the existing hosting/architecture until a demonstrated requirement justifies a change.
 
 ## Business facts to confirm during phase 0
 

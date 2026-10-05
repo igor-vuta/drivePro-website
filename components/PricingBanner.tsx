@@ -20,14 +20,14 @@ export default function PricingBanner() {
           <span>◆</span>
           <span>◆</span>
         </div>
-        <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-black text-cream uppercase tracking-wider mb-3 break-words">
+        <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-black text-cream normal-case tracking-normal mb-3 break-words">
           {t('banner_title')}
         </h2>
-        <p className="text-base sm:text-lg md:text-2xl font-bold text-cream/95 uppercase tracking-wide mb-3">
+        <p className="text-base sm:text-lg md:text-2xl font-bold text-cream/95 normal-case tracking-normal mb-3">
           {t('banner_delivery')}
         </p>
-        <p className="text-sm md:text-lg text-gold font-black tracking-wider uppercase mb-2">{t('banner_secondary')}</p>
-        <p className="text-cream/80 tracking-wider uppercase text-[10px] md:text-xs">{t('fine_print')}</p>
+        <p className="text-sm md:text-lg text-gold font-black tracking-normal normal-case mb-2">{t('banner_secondary')}</p>
+        <p className="text-cream/80 tracking-normal normal-case text-[10px] md:text-xs">{t('fine_print')}</p>
       </div>
     </section>
   );

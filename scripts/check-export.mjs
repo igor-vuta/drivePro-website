@@ -17,8 +17,9 @@ function exportedFile(path) {
 }
 
 const root = readFileSync('out/index.html', 'utf8');
-assert.match(root, /<main\b/, 'Missing root language selector');
+assert.match(root, /<main\b/, 'Missing bare-entry welcome');
 for (const locale of Object.keys(locales)) assert.ok(root.includes(`href="${route(locale)}"`));
+assert.ok(root.includes(`rel="canonical" href="${origin}${route('ru')}"`), 'Bare entry canonical must use the existing Russian page');
 const sitemap = readFileSync('out/sitemap.xml', 'utf8');
 const robots = readFileSync('out/robots.txt', 'utf8');
 assert.ok(robots.includes(`Sitemap: ${origin}${base}/sitemap.xml`));
@@ -60,15 +61,29 @@ for (const [locale, language] of Object.entries(locales)) {
   }
 
   const home = readFileSync(`out/${locale}/index.html`, 'utf8');
-  const play = home.match(/<section\b[^>]*class="optional-play"[^>]*>([\s\S]*?)<\/section>/)?.[1];
-  assert.ok(play, `Missing static play shell: ${locale}`);
-  for (const key of ['heading', 'intro', 'illustration_note', 'equipment_link', 'moped_link', 'contact_link']) {
-    assert.ok(play.includes(messages.play[key]), `Missing static play ${key}: ${locale}`);
+  for (const html of locale === 'ru' ? [home, root] : [home]) {
+    assert.ok(html.includes('id="welcome"'), `Missing static welcome: ${locale}`);
+    assert.ok(html.includes('href="#welcome"'), `Missing skip link: ${locale}`);
+    for (const key of ['headline', 'location', 'greeting', 'equipment_title', 'equipment_text', 'equipment_action', 'moped_title', 'moped_text', 'moped_action', 'illustration_note']) {
+      assert.ok(html.includes(messages.home[key]), `Missing static welcome ${key}: ${locale}`);
+    }
+    for (const [destination, page] of [['equipment', 'pricing'], ['mopeds', 'mopeds']]) {
+      const anchor = [...html.matchAll(/<a\b[^>]*>/g)].map(match => match[0]).find(tag => tag.includes(`data-destination="${destination}"`));
+      assert.ok(anchor?.includes(`href="${route(locale, page)}"`), `Missing direct ${destination} route: ${locale}`);
+    }
+    assert.doesNotMatch(html, /id="instagram-gallery-title"|class="optional-play"|id="callback-phone"|data-scene="3d"/, `Home contains a removed dense section: ${locale}`);
+    assert.match(html, /href="tel:\+\d+"/);
+    assert.match(html, /href="https:\/\/wa\.me\/\d+"/);
+    for (const vehicle of ['excavator', 'moped']) {
+      for (const size of [360, 720]) {
+        for (const format of ['avif', 'webp']) {
+          const asset = `${base}/welcome/${vehicle}-${size}.${format}`;
+          assert.ok(html.includes(asset), `Missing responsive welcome asset: ${asset}`);
+          assert.ok(existsSync(exportedFile(asset)), `Missing exported welcome asset: ${asset}`);
+        }
+      }
+    }
   }
-  for (const page of ['services', 'mopeds', 'contact']) {
-    assert.ok(play.includes(`href="${route(locale, page)}"`), `Missing play route ${page}: ${locale}`);
-  }
-  assert.doesNotMatch(play, /<(?:button|svg)\b/, `Idle play contains an inert control or scene: ${locale}`);
 
   const services = readFileSync(`out/${locale}/services/index.html`, 'utf8');
   const faq = services.match(/<section\b[^>]*aria-labelledby="services-faq-title"[^>]*>([\s\S]*?)<\/section>/)?.[1];
@@ -88,6 +103,9 @@ for (const [locale, language] of Object.entries(locales)) {
   const contact = readFileSync(`out/${locale}/contact/index.html`, 'utf8');
   assert.match(contact, /<label\b[^>]*for="callback-phone"/, `Missing callback label: ${locale}`);
   assert.match(contact, /<input\b[^>]*id="callback-phone"[^>]*aria-describedby="callback-help"/, `Missing callback help: ${locale}`);
+  const callbackInput = contact.match(/<input\b[^>]*id="callback-phone"[^>]*>/)?.[0] || '';
+  assert.match(callbackInput, /\bname="phone"/, `Missing telephone field name: ${locale}`);
+  assert.match(callbackInput, /\bautocomplete="tel"/i, `Missing telephone autocomplete: ${locale}`);
   for (const key of ['callback_label', 'callback_help', 'callback_btn']) assert.ok(contact.includes(messages.contact[key]));
   assert.match(contact, /href="tel:\+\d+"/);
   assert.match(contact, /href="https:\/\/wa\.me\/\d+"/);
@@ -98,15 +116,58 @@ for (const [locale, language] of Object.entries(locales)) {
     assert.ok(quote.includes(`for="brief-${field}"`), `Missing ${field} label: ${locale}`);
   }
   assert.ok(quote.includes('id="quote-summary"'));
-  assert.ok(quote.includes(messages.quote.message_intro));
+  const initialSummary = quote.match(/<textarea\b[^>]*id="quote-summary"[^>]*>([\s\S]*?)<\/textarea>/)?.[1];
+  assert.equal(initialSummary, messages.quote.empty_message, `Blank brief must export only the short enquiry: ${locale}`);
+  const initialDraftHref = [...quote.matchAll(/<a\b[^>]*href="(https:\/\/wa\.me\/\d+\?text=[^"]+)"/g)][0]?.[1];
+  assert.ok(initialDraftHref, `Missing initial WhatsApp draft: ${locale}`);
+  assert.equal(new URL(initialDraftHref.replaceAll('&amp;', '&')).searchParams.get('text'), messages.quote.empty_message, `Initial WhatsApp action must use the empty-brief enquiry: ${locale}`);
   assert.match(quote, /href="https:\/\/wa\.me\/\d+\?text=[^"]+"/);
   assert.match(quote, /href="tel:\+\d+"/);
+  const quoteDetails = [...quote.matchAll(/<details\b([^>]*)>([\s\S]*?)<\/details>/g)];
+  const disclosure = name => quoteDetails.find(match => match[1].includes(name));
+  for (const name of ['data-quote-extra', 'data-quote-editor', 'data-quote-factors']) {
+    const detail = disclosure(name);
+    assert.ok(detail, `Missing native disclosure ${name}: ${locale}`);
+    assert.ok(!/\bopen(?:=|\s|$)/.test(detail[1]), `Disclosure must start collapsed ${name}: ${locale}`);
+    assert.ok(detail[2].includes('<summary'), `Missing native summary ${name}: ${locale}`);
+  }
+  const extra = disclosure('data-quote-extra')[2];
+  for (const field of ['date', 'access', 'conditions', 'removal']) assert.ok(extra.includes(`id="brief-${field}"`), `Extra field must be collapsed ${field}: ${locale}`);
+  const outsideDetails = quote.replace(/<details\b[^>]*>[\s\S]*?<\/details>/g, '');
+  const visibleFields = [...outsideDetails.matchAll(/<(?:input|textarea)\b[^>]*id="brief-([^"]+)"/g)].map(match => match[1]);
+  assert.deepEqual(visibleFields, ['job', 'location', 'volume'], `Exactly three visible optional fields required: ${locale}`);
+  assert.ok(disclosure('data-quote-editor')[2].includes('id="quote-summary"'), `Message editor must be collapsed: ${locale}`);
+  assert.ok(outsideDetails.includes('data-quote-actions'), `Contact actions must remain outside disclosures: ${locale}`);
+  assert.ok(outsideDetails.includes(messages.quote.intro), `Missing operator/individual quote introduction: ${locale}`);
+  assert.ok(outsideDetails.includes('href="#quote-brief"'), `Missing quote skip link: ${locale}`);
 
   const mopeds = readFileSync(`out/${locale}/mopeds/index.html`, 'utf8');
-  assert.ok(mopeds.includes(messages.mopeds.feed_unavailable));
+  for (const html of [mopeds]) {
+    assert.ok(html.includes('id="instagram-gallery-title"'), `Missing saved gallery: ${locale}`);
+    assert.ok(html.includes(messages.gallery.saved), `Missing saved Highlights label: ${locale}`);
+    const highlights = JSON.parse(readFileSync('data/highlights.json', 'utf8'));
+    for (const item of highlights.items) {
+      assert.ok(html.includes(`href="${item.url}"`), `Missing static Highlight link: ${item.id}`);
+      assert.ok(html.includes(item.cover), `Missing real cover: ${item.id}`);
+      assert.ok(existsSync(exportedFile(item.cover)), `Missing exported cover: ${item.id}`);
+    }
+  }
   assert.match(mopeds, /href="https:\/\/www\.instagram\.com\/drivepro\.moped\.almaty\/?"/);
   assert.match(mopeds, /href="https:\/\/wa\.me\/\d+\?text=[^"]+"/);
+  const photos = JSON.parse(readFileSync('data/moped-photos.json', 'utf8'));
+  assert.equal(photos.length, 9, 'Expected nine inspected public post photos');
+  assert.ok(mopeds.includes('id="moped-photos"'), `Missing main photo grid: ${locale}`);
+  assert.ok(mopeds.includes(messages.photos.note), `Missing saved-photo disclosure: ${locale}`);
+  const beforePhotos = mopeds.slice(0, mopeds.indexOf('id="moped-photos"'));
+  assert.ok(beforePhotos.includes('https://wa.me/') && beforePhotos.includes(messages.gallery.ask), `Missing general enquiry before photos: ${locale}`);
+  for (const photo of photos) {
+    const anchor = [...mopeds.matchAll(/<a\b[^>]*>/g)].map(match => match[0]).find(tag => tag.includes(`data-photo-id="${photo.id}"`));
+    assert.ok(anchor?.includes(`href="${photo.permalink}"`), `Missing no-JS original post link ${photo.id}: ${locale}`);
+    assert.ok(mopeds.includes(`${base}${photo.image}`), `Missing actual post photo ${photo.id}: ${locale}`);
+    assert.ok(mopeds.includes(`alt="${messages.photos[`image_${photo.id}`]}"`), `Missing observable localized description ${photo.id}: ${locale}`);
+    assert.ok(existsSync(exportedFile(`${base}${photo.image}`)), `Missing exported photo ${photo.id}`);
+  }
 }
 
 for (const file of ['index.html', 'sitemap.xml', 'robots.txt', '.nojekyll']) assert.ok(existsSync(join('out', file)));
-stdout.write('Checked 15 localized routes, metadata, sitemap, links, assets, static play shells, services FAQ, quote, mopeds and contact actions.\n');
+stdout.write('Checked 15 localized routes, metadata, sitemap, links, assets, static welcome links and responsive assets, services FAQ, quote, mopeds and contact actions.\n');

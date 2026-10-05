@@ -6,6 +6,8 @@ import { createQuoteMessage, quoteFields, whatsappDraftHref } from '@/lib/quote.
 
 type Field = 'job' | 'location' | 'date' | 'volume' | 'access' | 'conditions' | 'removal';
 const fields = quoteFields as Field[];
+const basicFields: Field[] = ['job', 'location', 'volume'];
+const extraFields: Field[] = ['date', 'access', 'conditions', 'removal'];
 const emptyAnswers: Record<Field, string> = {
   job: '', location: '', date: '', volume: '', access: '', conditions: '', removal: '',
 };
@@ -20,9 +22,8 @@ export default function QuoteBrief() {
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '77772071697';
 
   const labels = Object.fromEntries(fields.map(key => [key, t(`summary_labels.${key}`)])) as Record<Field, string>;
-  const unknowns = Object.fromEntries(fields.map(key => [key, t(`fields.${key}.unknown`)])) as Record<Field, string>;
   const generated = createQuoteMessage({
-    intro: t('message_intro'), outro: t('message_outro'), labels, unknowns, answers,
+    intro: t('message_intro'), outro: t('message_outro'), emptyMessage: t('empty_message'), labels, answers,
   });
   const summary = manualSummary ?? generated;
 
@@ -41,55 +42,49 @@ export default function QuoteBrief() {
     }
   }
 
-  return (
-    <section className="mx-auto max-w-7xl px-4 py-12 md:px-8 md:py-20 lg:px-16" aria-labelledby="brief-title">
-      <div className="mb-7 h-1 w-16 bg-blood-red" />
-      <h2 id="brief-title" className="text-2xl font-black uppercase tracking-wide text-cream md:text-4xl">{t('brief_title')}</h2>
-      <p className="mt-3 max-w-3xl text-base leading-relaxed text-cream/90">{t('optional_note')}</p>
+  function renderField(key: Field, compact = false) {
+    const props = {
+      id: `brief-${key}`,
+      name: key,
+      autoComplete: 'off',
+      'aria-describedby': `brief-${key}-hint`,
+      value: answers[key],
+      onChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setAnswers(current => ({ ...current, [key]: event.target.value }));
+        invalidateCopyStatus();
+      },
+      placeholder: compact ? t(`fields.${key}.placeholder`) : t(`fields.${key}.unknown`),
+      className: 'form-field mt-2 rounded-md border-cream/25 bg-charcoal focus-visible:border-gold',
+    };
+    return (
+      <div key={key}>
+        <label htmlFor={props.id} className="block text-base font-semibold text-cream">{t(`fields.${key}.label`)}</label>
+        <p id={`brief-${key}-hint`} className={compact ? 'sr-only' : 'mt-1 text-sm leading-relaxed text-cream/90'}>{t(`fields.${key}.hint`)}</p>
+        {key === 'job' || key === 'conditions' ? <textarea {...props} rows={2} /> : <input {...props} type="text" />}
+      </div>
+    );
+  }
 
-      <div className="mt-8 grid gap-5 md:grid-cols-2">
-        {fields.map(key => (
-          <div key={key} className="border-l-2 border-gold bg-charcoal p-4">
-            <label htmlFor={`brief-${key}`} className="block text-base font-bold text-cream">{t(`fields.${key}.label`)}</label>
-            <p id={`brief-${key}-hint`} className="my-2 text-sm leading-relaxed text-cream/90">{t(`fields.${key}.hint`)}</p>
-            {key === 'conditions' || key === 'job' ? (
-              <textarea
-                id={`brief-${key}`}
-                aria-describedby={`brief-${key}-hint`}
-                rows={2}
-                value={answers[key]}
-                onChange={event => {
-                  setAnswers(current => ({ ...current, [key]: event.target.value }));
-                  invalidateCopyStatus();
-                }}
-                placeholder={t(`fields.${key}.unknown`)}
-                className="form-field"
-              />
-            ) : (
-              <input
-                id={`brief-${key}`}
-                aria-describedby={`brief-${key}-hint`}
-                type="text"
-                value={answers[key]}
-                onChange={event => {
-                  setAnswers(current => ({ ...current, [key]: event.target.value }));
-                  invalidateCopyStatus();
-                }}
-                placeholder={t(`fields.${key}.unknown`)}
-                className="form-field"
-              />
-            )}
-          </div>
-        ))}
+  return (
+    <section id="quote-brief" className="mx-auto max-w-[752px] scroll-mt-4 px-4 pb-12" aria-labelledby="brief-title">
+      <h2 id="brief-title" className="sr-only">{t('brief_title')}</h2>
+      <div data-quote-basic className="grid gap-4">
+        {basicFields.map(key => renderField(key, true))}
       </div>
 
-      <div className="mt-10 border-t-4 border-blood-red bg-charcoal p-5 md:p-8">
-        <h3 className="text-xl font-black uppercase tracking-wide text-cream md:text-2xl">{t('summary_heading')}</h3>
-        <p className="mt-2 text-sm font-bold text-gold">{t('summary_operator')}</p>
-        <p className="mt-2 text-sm text-cream/90">{t('summary_edit_note')}</p>
+      <details data-quote-extra className="mt-5 border-b border-cream/20">
+        <summary className="min-h-12 cursor-pointer py-3 text-base font-semibold text-gold hover:text-cream">{t('extra_details')}</summary>
+        <div className="grid gap-4 pb-5">{extraFields.map(key => renderField(key))}</div>
+      </details>
+
+      <details data-quote-editor className="border-b border-cream/20">
+        <summary className="min-h-12 cursor-pointer py-3 text-base font-semibold text-gold hover:text-cream">{t('summary_heading')}</summary>
+        <p className="mt-2 text-sm leading-relaxed text-cream/90">{t('summary_edit_note')}</p>
         <label htmlFor="quote-summary" className="sr-only">{t('summary_heading')}</label>
         <textarea
           id="quote-summary"
+          name="message"
+          autoComplete="off"
           rows={12}
           value={summary}
           onChange={event => {
@@ -99,17 +94,19 @@ export default function QuoteBrief() {
           className="form-field mt-2 min-h-64 leading-relaxed"
         />
         <div className="mt-4 flex flex-wrap gap-3">
-          <button type="button" onClick={() => { setManualSummary(null); invalidateCopyStatus(); }} className="action-outline">{t('refresh_summary')}</button>
-          <button type="button" onClick={copySummary} className="action-outline">{t('copy_summary')}</button>
+          <button type="button" onClick={() => { setManualSummary(null); invalidateCopyStatus(); }} className="action-outline font-semibold">{t('refresh_summary')}</button>
+          <button type="button" onClick={copySummary} className="action-outline font-semibold">{t('copy_summary')}</button>
         </div>
-        <p role="status" aria-live="polite" className="mt-2 min-h-6 text-sm text-gold">{copyStatus}</p>
+        <p role="status" aria-live="polite" className="my-2 min-h-6 text-sm text-gold">{copyStatus}</p>
+      </details>
 
-        <div className="mt-5 flex flex-wrap gap-3">
-          <a href={whatsappDraftHref(whatsappNumber, summary)} target="_blank" rel="noopener noreferrer" className="action-primary">{t('whatsapp_action')}</a>
-          <a href={`tel:${phoneNumber.replace(/[^+\d]/g, '')}`} className="action-outline">{t('call_action')}</a>
+      <p className="mt-4 text-sm leading-relaxed text-cream/90">{t('optional_note')}</p>
+      <div data-quote-actions className="mt-5">
+        <div className="grid grid-cols-2 gap-3">
+          <a href={whatsappDraftHref(whatsappNumber, summary)} target="_blank" rel="noopener noreferrer" className="action-primary rounded-md px-3 font-semibold">{t('whatsapp_action')}</a>
+          <a href={`tel:${phoneNumber.replace(/[^+\d]/g, '')}`} className="action-outline rounded-md border-cream/80 px-3 font-semibold">{t('call_action')}</a>
         </div>
-        <p className="mt-4 max-w-3xl text-sm leading-relaxed text-cream/90">{t('whatsapp_help')}</p>
-        <p className="mt-1 text-sm text-cream/90">{t('call_help')}</p>
+        <p className="mt-3 text-sm leading-relaxed text-cream/90">{t('whatsapp_help')}</p>
       </div>
     </section>
   );

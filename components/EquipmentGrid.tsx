@@ -10,7 +10,7 @@ export default function EquipmentGrid() {
       <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16">
         <div className="mb-12">
           <div className="w-16 h-1 bg-blood-red mb-4" />
-          <h2 className="text-3xl md:text-5xl font-black text-cream uppercase tracking-wider">
+          <h2 className="text-3xl md:text-5xl font-black text-cream normal-case tracking-normal">
             <span className="text-gold">◆</span> {t('title')}
           </h2>
         </div>

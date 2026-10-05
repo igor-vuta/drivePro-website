@@ -43,7 +43,7 @@ export default function EquipmentCard({ machineKey }: EquipmentCardProps) {
               backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(192,57,43,0.15) 8px, rgba(192,57,43,0.15) 9px)',
             }}
           >
-            <span className="text-gold font-bold text-sm tracking-widest uppercase border border-gold/50 px-4 py-2 bg-jet-black/80 text-center">
+            <span className="text-gold font-bold text-sm tracking-normal normal-case border border-gold/50 px-4 py-2 bg-jet-black/80 text-center">
               {t(`machines.${machineKey}.fallback_label`)}
             </span>
           </div>
@@ -51,11 +51,11 @@ export default function EquipmentCard({ machineKey }: EquipmentCardProps) {
       </div>
 
       <div className="p-6 flex flex-col flex-1">
-        <span className="inline-block bg-blood-red text-cream text-xs font-black tracking-widest uppercase px-3 py-1 mb-3 self-start">
+        <span className="inline-block bg-blood-red text-cream text-xs font-black tracking-normal normal-case px-3 py-1 mb-3 self-start">
           {t('tonnage_label')}: {t(`machines.${machineKey}.tonnage`)}
         </span>
 
-        <h3 className="text-cream font-black text-xl uppercase tracking-wider mb-3">
+        <h3 className="text-cream font-black text-xl normal-case tracking-normal mb-3">
           {t(`machines.${machineKey}.name`)}
         </h3>
         <p className="text-cream/70 text-sm leading-relaxed flex-1 mb-6">
@@ -64,7 +64,7 @@ export default function EquipmentCard({ machineKey }: EquipmentCardProps) {
 
         <Link
           href={`/${locale}/contact`}
-          className="block text-center bg-blood-red text-cream font-black text-sm tracking-widest uppercase py-3 hover:bg-deep-red transition-colors"
+          className="block text-center bg-blood-red text-cream font-black text-sm tracking-normal normal-case py-3 hover:bg-deep-red transition-colors"
         >
           {t('order_btn')}
         </Link>

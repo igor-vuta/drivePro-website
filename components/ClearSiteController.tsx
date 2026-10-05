@@ -10,6 +10,9 @@ export default function ClearSiteController({ startPaused, onExit }: { startPaus
   const t = useTranslations('play');
   const initiallyPaused = startPaused || (typeof document !== 'undefined' && document.hidden);
   const [state, setState] = useState<PlayState>(() => newPlayState(initiallyPaused));
+  const [hidden, setHidden] = useState(() => typeof document !== 'undefined' && document.hidden);
+  const [rotation, setRotation] = useState(-28);
+  const [action, setAction] = useState(0);
   const [announcement, setAnnouncement] = useState(() => initiallyPaused ? t('paused') : t('progress', { count: 0 }));
   const pileButtonsRef = useRef<Array<HTMLButtonElement | null>>([]);
   const resetRef = useRef<HTMLButtonElement>(null);
@@ -18,6 +21,8 @@ export default function ClearSiteController({ startPaused, onExit }: { startPaus
 
   useEffect(() => {
     const onVisibility = () => {
+      setHidden(document.hidden);
+      if (document.hidden && state.phase === 'completed') setAction(0);
       if (document.hidden && state.phase === 'active') {
         setState(current => pausePlay(current));
         setAnnouncement(t('paused'));
@@ -45,6 +50,7 @@ export default function ClearSiteController({ startPaused, onExit }: { startPaus
     const next = movePile(state, number);
     if (next === state) return;
     focusTargetRef.current = next.phase === 'completed' ? 'reset' : 'next';
+    setAction(current => current + 1);
     setState(next);
     setAnnouncement(next.phase === 'completed' ? t('complete') : t('progress', { count: movedCount(next) }));
   }
@@ -63,14 +69,21 @@ export default function ClearSiteController({ startPaused, onExit }: { startPaus
 
   function reset() {
     focusTargetRef.current = 'next';
+    setAction(0);
+    setRotation(-28);
     setState(resetPlay());
     setAnnouncement(t('reset_status'));
   }
 
   return (
     <div className={styles.controller}>
-      <ClearSiteScene cleared={state.cleared} />
-      <p className={styles.progress}>{t('progress', { count: movedCount(state) })}</p>
+      <ClearSiteScene cleared={state.cleared} rotation={rotation} action={action} paused={state.phase === 'paused' || hidden} />
+      <div className={styles.view}>
+        <label htmlFor="scene-rotation">{t('rotate')}</label>
+        <input id="scene-rotation" type="range" min="-70" max="70" value={rotation} onChange={event => setRotation(Number(event.target.value))} disabled={state.phase === 'paused'} />
+        <button type="button" className="optional-play-action" onClick={() => setRotation(current => Math.max(-70, current - 20))} disabled={state.phase === 'paused'}>{t('rotate_left')}</button>
+        <button type="button" className="optional-play-action" onClick={() => setRotation(current => Math.min(70, current + 20))} disabled={state.phase === 'paused'}>{t('rotate_right')}</button>
+      </div>
       <p className="optional-play-status" role="status" aria-live="polite">{announcement}</p>
       <div className={styles.piles}>
         {pileNumbers.map(number => (

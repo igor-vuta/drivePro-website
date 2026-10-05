@@ -20,6 +20,7 @@ export default function OptionalPlay() {
               <p>{t('intro')}</p>
             </div>
           </div>
+          <div className="optional-play-preview" aria-hidden="true"><span className="preview-platform" /><span className="preview-tracks" /><span className="preview-cab" /><span className="preview-boom" /><span className="preview-soil" /></div>
           <PlayActivation />
           <p className="optional-play-note">{t('illustration_note')}</p>
           <nav className="optional-play-links" aria-label={t('heading')}>
