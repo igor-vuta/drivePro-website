@@ -20,7 +20,11 @@ export default defineConfig([
     files: ['postcss.config.js'],
     languageOptions: { globals: { module: 'readonly' } },
   },
-  ...ts.configs.recommended,
+  ...ts.configs.recommended.map(config => ({ ...config, ignores: ['vendor/braces/**'] })),
+  {
+    files: ['vendor/braces/**/*.js'],
+    languageOptions: { sourceType: 'commonjs', globals: { console: 'readonly' } },
+  },
   {
     files: ['**/*.{js,mjs,cjs,jsx,ts,tsx}'],
     ...next.configs['core-web-vitals'],
