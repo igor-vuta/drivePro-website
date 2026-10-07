@@ -1,0 +1,11 @@
+{
+  "source": "https://github.com/google/fonts/blob/main/ofl/notosans/NotoSans%5Bwdth,wght%5D.ttf",
+  "observed_date": "2026-10-05",
+  "upstream_sha256": "bfb7bb691513f12e734dc346c03a03f784912432d7e3fa8e56efcf906fe86b3d",
+  "output_sha256": "9d884c09f3324e2cc86b588ec11cf8e9474a9a4b98524d95b26a1a7aef10812a",
+  "license": "SIL Open Font License 1.1, see OFL.txt",
+  "width": 100,
+  "weight_axis": "100–900",
+  "ranges": "U+0000–024F, U+0400–052F, U+2000–206F",
+  "kazakh_glyphs_verified": "ӘәҒғҚқҢңӨөҰұҮүҺһІі"
+}

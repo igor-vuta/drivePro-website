@@ -16,9 +16,6 @@ const config: Config = {
         'gold': '#D4A017',
         'charcoal': '#1A1A1A',
       },
-      fontFamily: {
-        oswald: ['var(--font-oswald)', 'sans-serif'],
-      },
     },
   },
   plugins: [],

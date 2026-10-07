@@ -13,10 +13,18 @@ export default defineConfig([
     ...js.configs.recommended,
   },
   {
+    files: ['lib/stories.mjs', 'scripts/sync-instagram-stories.mjs', 'scripts/test-stories.mjs'],
+    languageOptions: { globals: { URL: 'readonly', fetch: 'readonly', AbortSignal: 'readonly' } },
+  },
+  {
     files: ['postcss.config.js'],
     languageOptions: { globals: { module: 'readonly' } },
   },
-  ...ts.configs.recommended,
+  ...ts.configs.recommended.map(config => ({ ...config, ignores: ['vendor/braces/**'] })),
+  {
+    files: ['vendor/braces/**/*.js'],
+    languageOptions: { sourceType: 'commonjs', globals: { console: 'readonly' } },
+  },
   {
     files: ['**/*.{js,mjs,cjs,jsx,ts,tsx}'],
     ...next.configs['core-web-vitals'],

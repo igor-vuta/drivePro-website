@@ -24,7 +24,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
       <header className="bg-charcoal px-4 py-12 md:px-8 md:py-20 lg:px-16">
         <div className="mx-auto max-w-7xl">
           <div className="mb-4 h-1 w-16 bg-blood-red" />
-          <h1 className="text-3xl font-black uppercase tracking-wide text-cream md:text-6xl">{t('title')}</h1>
+          <h1 className="text-3xl font-black normal-case tracking-normal text-cream md:text-6xl">{t('title')}</h1>
           <p className="mt-4 max-w-3xl text-base leading-relaxed text-cream md:text-lg">{t('intro')}</p>
         </div>
       </header>

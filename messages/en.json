@@ -1,23 +1,23 @@
 {
   "nav": {
     "company": "DRIVE PRO",
-    "home": "HOME",
-    "services": "EARTHWORKS",
-    "pricing": "REQUEST A QUOTE",
-    "mopeds": "MOPEDS",
-    "contact": "CONTACT",
+    "home": "Home",
+    "services": "Earthworks",
+    "pricing": "Request a quote",
+    "mopeds": "Mopeds",
+    "contact": "Contact",
     "open_menu": "Open menu",
     "close_menu": "Close menu",
     "languages": "Language"
   },
   "home": {
-    "headline": "Excavator work and mopeds in Almaty",
+    "headline": "Excavator or moped?",
     "intro": "Choose what you need. Describe an earthworks job for an individual quote, or browse moped updates separately.",
-    "equipment_title": "Excavator and earthworks",
-    "equipment_text": "Excavator work is only with our operator and quoted individually. For tractor or loader work, tell us the task and ask about availability and terms.",
-    "equipment_action": "Describe a job and request a quote",
+    "equipment_title": "Excavator",
+    "equipment_text": "Our operator only. Individual quote.",
+    "equipment_action": "Request a quote",
     "moped_title": "Mopeds",
-    "moped_text": "See our latest moped posts and Stories on Instagram, or ask us directly.",
+    "moped_text": "Models from our Instagram.",
     "moped_action": "Browse mopeds",
     "call": "Call us",
     "whatsapp": "Open WhatsApp",
@@ -27,7 +27,11 @@
     "step2_title": "Check the site",
     "step2_text": "Location, timing, access and ground conditions help us discuss the work.",
     "step3_title": "Discuss the quote",
-    "step3_text": "We assess excavator work with our operator and give an individual quote after clarifying the conditions."
+    "step3_text": "We assess excavator work with our operator and give an individual quote after clarifying the conditions.",
+    "location": "Almaty",
+    "greeting": "Welcome",
+    "illustration_note": "Illustrations",
+    "skip": "Skip to choices"
   },
   "services": {
     "title": "Excavator and earthworks in Almaty",
@@ -41,26 +45,37 @@
     "other_title": "Tractor or loader questions",
     "other_text": "For tractor or loader work, tell us the task and ask about availability and terms.",
     "quote_action": "Request an excavator quote",
-    "call_action": "Call to discuss"
+    "call_action": "Call to discuss",
+    "faq_title": "Common questions",
+    "faq_operator_question": "Can I hire an excavator without your operator?",
+    "faq_operator_answer": "No. Excavator work is only available with our operator; we do not provide an excavator without our operator.",
+    "faq_price_question": "Why does the price need an individual quote?",
+    "faq_price_answer": "The quote depends on the job and site conditions. Describe the work and what you know about the location, access and ground; we can discuss the price after clarifying the conditions.",
+    "faq_unknown_question": "Can I request a quote without knowing the volume or dimensions?",
+    "faq_unknown_answer": "Yes. A short job description is enough to start the conversation. Volume and dimensions are optional in the brief, and unknown details can be discussed later. You can also call us directly.",
+    "faq_whatsapp_question": "Does opening WhatsApp send my enquiry?",
+    "faq_whatsapp_answer": "No. Opening WhatsApp or a draft does not send the enquiry. Review the message and press Send in WhatsApp yourself."
   },
   "quote": {
-    "title": "Request a quote for excavator work in Almaty",
-    "intro": "Excavators are available only with our operator; hire without our operator is not offered. Each job is quoted individually after the task and site conditions are clarified.",
+    "title": "Excavator with operator in Almaty",
+    "intro": "Only with our operator. We quote each job individually.",
     "factors_title": "Details that help with a quote",
     "factors_text": "Tell us what work is needed, where and when, the approximate size, access and ground conditions. You do not need technical measurements to start a conversation.",
     "other_note": "For tractor or loader work, tell us the task and ask about availability and terms.",
     "brief_title": "Short job brief",
-    "optional_note": "Every detail below is optional. You can call or open WhatsApp at any time.",
+    "optional_note": "Every field is optional. Skip anything you don’t know.",
     "fields": {
       "job": {
         "label": "What work do you need?",
         "hint": "For example a trench, foundation pit or site preparation; your own words are best.",
-        "unknown": "To discuss"
+        "unknown": "To discuss",
+        "placeholder": "For example, a trench or foundation pit…"
       },
       "location": {
         "label": "Where is the site?",
         "hint": "Area, address or landmark; the exact address can follow later.",
-        "unknown": "I will confirm the location later"
+        "unknown": "I will confirm the location later",
+        "placeholder": "Area, address or landmark…"
       },
       "date": {
         "label": "When would you like to start?",
@@ -70,7 +85,8 @@
       "volume": {
         "label": "Approximate volume or dimensions?",
         "hint": "m³ or length × width × depth in metres, if known.",
-        "unknown": "I do not know the volume or dimensions"
+        "unknown": "I do not know the volume or dimensions",
+        "placeholder": "For example, 50 m³ or length × width × depth…"
       },
       "access": {
         "label": "Any access restrictions?",
@@ -88,7 +104,7 @@
         "unknown": "To discuss"
       }
     },
-    "summary_heading": "Review and edit your message",
+    "summary_heading": "Review message",
     "summary_operator": "Excavator work is only with our operator. Price is quoted individually.",
     "summary_labels": {
       "job": "Job",
@@ -105,22 +121,26 @@
     "copy_summary": "Copy message",
     "copy_success": "Message copied.",
     "copy_error": "Copy did not work. Select and copy the message above.",
-    "whatsapp_action": "Open message in WhatsApp",
-    "whatsapp_help": "The message opens as a draft. Review it and press Send in WhatsApp; opening the draft does not send your enquiry.",
-    "call_action": "Call to discuss",
+    "whatsapp_action": "Open WhatsApp",
+    "whatsapp_help": "Review the draft and press Send in WhatsApp.",
+    "call_action": "Call us",
     "call_help": "Keep the message on screen as talking points.",
-    "summary_edit_note": "Your edits stay in this message. Refresh from answers only when you want to replace them."
+    "summary_edit_note": "Your edits stay in this message. Refresh from answers only when you want to replace them.",
+    "extra_details": "Add details (optional)",
+    "skip_brief": "Skip to job brief",
+    "empty_message": "Hello! Could you tell me about excavator hire with your operator in Almaty?"
   },
   "mopeds": {
     "title": "Drive Pro mopeds in Almaty",
-    "intro": "Interested in a moped? See our latest posts and Stories on Instagram, then ask us about current details.",
+    "intro": "Browse moped photos and ask us for details.",
     "updates_title": "Moped updates",
     "feed_unavailable": "Moped updates are unavailable here right now. See our latest posts and Stories on Instagram, or ask us directly.",
     "instagram_action": "Open @drivepro.moped.almaty",
     "whatsapp_action": "Ask about mopeds in WhatsApp",
     "call_action": "Call us",
     "whatsapp_help": "Review the draft and press Send in WhatsApp.",
-    "message": "Hello! I would like to ask about Drive Pro mopeds in Almaty. What can we discuss now?"
+    "message": "Hello! I would like to ask about Drive Pro mopeds in Almaty. What can we discuss now?",
+    "skip_photos": "Skip to photos"
   },
   "contact": {
     "title": "Contact Drive Pro",
@@ -129,21 +149,44 @@
     "callback_label": "Your number for a reply",
     "callback_placeholder": "Your phone number",
     "callback_help": "We will prepare a WhatsApp message with your number. Review it and press Send there. Your number stays here so you can edit it and retry.",
-    "callback_btn": "OPEN WHATSAPP DRAFT",
+    "callback_btn": "Open WhatsApp draft",
     "callback_whatsapp_message": "Hello! I would like to request a call. My number: ",
-    "phone_title": "CALL",
+    "phone_title": "Call",
     "whatsapp_title": "WHATSAPP",
     "instagram_title": "INSTAGRAM",
-    "whatsapp_btn": "OPEN WHATSAPP",
-    "instagram_btn": "OPEN INSTAGRAM",
+    "whatsapp_btn": "Open WhatsApp",
+    "instagram_btn": "Open Instagram",
     "service_area": "Ask us about work in Almaty; exact site coverage is confirmed directly."
   },
   "footer": {
     "company": "DRIVE PRO",
     "tagline": "Excavator enquiries and mopeds in Almaty",
-    "links_title": "PAGES",
-    "social_title": "CONTACT",
+    "links_title": "Pages",
+    "social_title": "Contact",
     "copyright": "© 2026 Drive Pro"
+  },
+  "play": {
+    "heading": "Clear the site",
+    "intro": "Move three soil piles to reveal an illustration.",
+    "play": "Play",
+    "loading": "Loading illustration…",
+    "move_pile": "Move pile {N}",
+    "progress": "Piles moved: {count} of 3.",
+    "pause": "Pause",
+    "paused": "Play paused.",
+    "resume": "Resume",
+    "complete": "All three piles moved. Illustration revealed.",
+    "reset": "Reset",
+    "reset_status": "Piles reset.",
+    "exit": "Exit play",
+    "load_failure": "Illustration could not load. The links below still work.",
+    "illustration_note": "Illustration only; it does not show actual equipment or availability.",
+    "equipment_link": "Excavator work",
+    "moped_link": "Browse mopeds",
+    "contact_link": "Contact",
+    "rotate": "Rotate the scene",
+    "rotate_left": "Rotate left",
+    "rotate_right": "Rotate right"
   },
   "seo": {
     "home": {
@@ -166,5 +209,47 @@
       "title": "Mopeds in Almaty — Drive Pro updates",
       "description": "See how to check Drive Pro moped updates and contact us by phone or WhatsApp to ask about current details."
     }
+  },
+  "gallery": {
+    "heading": "Photos from Instagram",
+    "saved": "Saved Highlights",
+    "open": "View on Instagram",
+    "ask_model": "Ask about this model",
+    "ask": "Ask about a moped",
+    "availability": "Saved Highlights from our account. Ask us about current availability; these covers do not establish current stock.",
+    "message": "Hello! I would like to ask about Drive Pro mopeds in Almaty. What is currently available to discuss?",
+    "model_message": "Hello! I saw the saved Highlight “{model}” on the Drive Pro website. Please tell me about this model and its current availability.",
+    "previous": "Previous Highlights",
+    "next": "Next Highlights",
+    "live_title": "Recent Stories",
+    "empty": "No recent Stories loaded here. View them on Instagram.",
+    "failed": "Stories could not be loaded. Open Instagram or use the saved Highlights below.",
+    "retry": "Try again",
+    "story_message": "Hello! I saw this Story on the Drive Pro website. Please tell me about the moped shown and its current availability.",
+    "updated": "Updated"
+  },
+  "photos": {
+    "title": "Photos from Instagram",
+    "note": "Saved post photos. Ask us about availability.",
+    "view": "View photo",
+    "view_number": "View photo {number}",
+    "failed": "Photo could not load.",
+    "original": "Open original post",
+    "close": "Close",
+    "previous": "Previous",
+    "next": "Next",
+    "counter": "{current} of {total}",
+    "navigation": "Photo navigation",
+    "ask": "Ask on WhatsApp",
+    "message": "Hello! I would like to ask about the moped in this post:",
+    "image_DcJlvHzsqYI": "Purple and black scooters in a warehouse",
+    "image_DcFkd0KMmK5": "Scooters lined up in a warehouse",
+    "image_DcDI8g_Mpuq": "Orange and cream scooters with round headlights",
+    "image_DKrB5D2CH3u": "Blue scooter outdoors",
+    "image_DKllIeHCa7X": "Grey scooter with a round headlight",
+    "image_DKeXVjyCNB4": "Silver scooter with a round headlight",
+    "image_DKZb0_RiVrs": "Red scooter on a path",
+    "image_DKSABqxCM_j": "Blue scooter beside greenery",
+    "image_DKHUtAbCWjv": "Silver scooter with an angular front panel"
   }
 }

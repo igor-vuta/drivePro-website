@@ -1,0 +1,87 @@
+{
+  "source": "https://www.instagram.com/drivepro.moped.almaty/",
+  "observed_date": "2026-10-05",
+  "limitations": "150px profile Highlight covers only; original account spelling preserved in sourceTitle, normalized display names in title. Profile order is not publication chronology. Manufacturer/name corrections use primary references; short Jog codes are retained from the account with uppercase J, without an inferred variant prefix. No live Stories/stock/sale/rental verification.",
+  "items": [
+    {
+      "id": "suzuki-lets-5",
+      "title": "Suzuki Let's 5",
+      "url": "https://www.instagram.com/stories/highlights/18185007853280491/",
+      "cover": "/drivePro-website/instagram/highlights/suzuki-lets-5.jpg",
+      "sha256": "b1cecb2d1e9b6ce0e235604ada18fa7576c87d29834ac4de80c390b42f3eea5a",
+      "sourceTitle": "Suzuki Let's 5"
+    },
+    {
+      "id": "yamaha-vino-5au",
+      "title": "Yamaha Vino 5AU",
+      "url": "https://www.instagram.com/stories/highlights/18009490972436213/",
+      "cover": "/drivePro-website/instagram/highlights/yamaha-vino-5au.webp",
+      "sha256": "17e28dc1fd7bda944729934aace46e82a662adf690de3af12f5e1a37b5cc1461",
+      "sourceTitle": "Yamaha Vino 5АU"
+    },
+    {
+      "id": "yamaha-jog-36j",
+      "title": "Yamaha Jog 36J",
+      "url": "https://www.instagram.com/stories/highlights/18238938778142608/",
+      "cover": "/drivePro-website/instagram/highlights/yamaha-jog-36j.webp",
+      "sha256": "395f7e6ccaa47f5ee2b06e8bf2f83d4e06f0bc433d2068e31fad2abeff5bb4c0",
+      "sourceTitle": "Yamaha Jog 36j"
+    },
+    {
+      "id": "honda-dio-fit-27",
+      "title": "Honda Dio Fit AF27",
+      "url": "https://www.instagram.com/stories/highlights/17942262446036529/",
+      "cover": "/drivePro-website/instagram/highlights/honda-dio-fit-27.webp",
+      "sha256": "71a1332e1a4f478e56231d8001f8a6e9403d1d3b85148307865558945a3f0825",
+      "sourceTitle": "Honda Dio Fit 27"
+    },
+    {
+      "id": "yamaha-bj",
+      "title": "Yamaha BJ",
+      "url": "https://www.instagram.com/stories/highlights/17969539060678609/",
+      "cover": "/drivePro-website/instagram/highlights/yamaha-bj.webp",
+      "sha256": "2641d2d596e65abd16dcfd2770ad362b238894801cbf799bce3ae6cd5a28b6f9",
+      "sourceTitle": "Yamaha BJ"
+    },
+    {
+      "id": "yamaha-gear",
+      "title": "Yamaha Gear",
+      "url": "https://www.instagram.com/stories/highlights/18240529069190427/",
+      "cover": "/drivePro-website/instagram/highlights/yamaha-gear.webp",
+      "sha256": "e5dd8cc340207abdc67a89ab09d8baadabf33c4cc08c8dfa3e0e9848abf4e79f",
+      "sourceTitle": "Yamaha Gear"
+    },
+    {
+      "id": "gyro-up-yamaha",
+      "title": "Honda Gyro UP",
+      "url": "https://www.instagram.com/stories/highlights/17935146893491315/",
+      "cover": "/drivePro-website/instagram/highlights/gyro-up-yamaha.webp",
+      "sha256": "c2f3c3cb5005ffead436070d0e1d9de2d3d217758622843112f130ac6dc9fe08",
+      "sourceTitle": "Gyro Up Yamaha"
+    },
+    {
+      "id": "yamaha-jog-16j",
+      "title": "Yamaha Jog 16J",
+      "url": "https://www.instagram.com/stories/highlights/17998842919481789/",
+      "cover": "/drivePro-website/instagram/highlights/yamaha-jog-16j.webp",
+      "sha256": "7685a66abc43124e019cdba9465cb3d6fecf4e3dfc49bcba035ef669f39663a6",
+      "sourceTitle": "YamahaJog 16j"
+    },
+    {
+      "id": "yamaha-jog-12j",
+      "title": "Yamaha Jog 12J",
+      "url": "https://www.instagram.com/stories/highlights/17980869739577543/",
+      "cover": "/drivePro-website/instagram/highlights/yamaha-jog-12j.webp",
+      "sha256": "ccfbb3ada472e4ce61702b162468d9bc8a380217fc081e6c74351036fa35feef",
+      "sourceTitle": "YamahaJog 12j"
+    },
+    {
+      "id": "yamaha-jog-01j",
+      "title": "Yamaha Jog 01J",
+      "url": "https://www.instagram.com/stories/highlights/17955815557904441/",
+      "cover": "/drivePro-website/instagram/highlights/yamaha-jog-01j.webp",
+      "sha256": "9ab788706c9e6188edc86cea3bbe40f57d7ce6654cb454e5a79151bb34094421",
+      "sourceTitle": "YamahaJog 01j"
+    }
+  ]
+}
