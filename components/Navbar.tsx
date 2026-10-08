@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 import styles from './Welcome.module.css';
-import { locales, type Locale } from '@/lib/site';
+import { locales, sectionPath, type Locale } from '@/lib/site';
 
 const languageNames: Record<Locale, string> = { ru: 'RU', kz: 'ҚАЗ', en: 'EN' };
 
@@ -12,14 +12,17 @@ export default function Navbar({ mode = 'full' }: { mode?: 'full' | 'welcome' })
   const t = useTranslations('nav');
   const locale = useLocale() as Locale;
   const pathname = usePathname();
-  const route = pathname.match(/\/(?:ru|kz|en)(\/.*)?$/)?.[1] || '';
+  const route = (pathname.match(/\/(?:ru|kz|en)(\/.*)?$/)?.[1] || pathname.match(/\/(excavators|mopeds)\/?$/)?.[0] || '').replace(/\/$/, '');
+  const languageTarget = (target: Locale) => route === '/services' || route === '/excavators'
+    ? sectionPath(target, 'excavators')
+    : route === '/mopeds' ? sectionPath(target, 'mopeds') : `/${target}${route}`;
   const phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER || '+7 (777) 207-16-97';
 
   const links = [
     { path: '', label: t('home') },
-    { path: '/services', label: t('services') },
+    { path: sectionPath(locale, 'excavators'), label: t('services'), direct: true },
     { path: '/pricing', label: t('pricing') },
-    { path: '/mopeds', label: t('mopeds') },
+    { path: sectionPath(locale, 'mopeds'), label: t('mopeds'), direct: true },
     { path: '/contact', label: t('contact') },
   ];
 
@@ -28,7 +31,7 @@ export default function Navbar({ mode = 'full' }: { mode?: 'full' | 'welcome' })
       {locales.map(target => (
         <Link
           key={target}
-          href={`/${target}${route}`}
+          href={languageTarget(target)}
           hrefLang={target === 'kz' ? 'kk' : target}
           lang={target === 'kz' ? 'kk' : target}
           aria-current={target === locale ? 'page' : undefined}
@@ -43,7 +46,7 @@ export default function Navbar({ mode = 'full' }: { mode?: 'full' | 'welcome' })
   if (mode === 'welcome') return <nav className={styles.header} aria-label={t('company')}>
     <Link href={`/${locale}`} className={styles.brand} prefetch={false} translate="no">Drive <span>Pro</span></Link>
     <div className={styles.languages} aria-label={t('languages')}>
-      {locales.map(target => <Link key={target} href={`/${target}${route}`} prefetch={false} hrefLang={target === 'kz' ? 'kk' : target} lang={target === 'kz' ? 'kk' : target} aria-current={target === locale ? 'page' : undefined} className={styles.language}>{languageNames[target]}</Link>)}
+      {locales.map(target => <Link key={target} href={languageTarget(target)} prefetch={false} hrefLang={target === 'kz' ? 'kk' : target} lang={target === 'kz' ? 'kk' : target} aria-current={target === locale ? 'page' : undefined} className={styles.language}>{languageNames[target]}</Link>)}
     </div>
   </nav>;
 
@@ -57,7 +60,7 @@ export default function Navbar({ mode = 'full' }: { mode?: 'full' | 'welcome' })
 
         <div className="hidden items-center gap-4 lg:flex">
           {links.map(link => (
-            <Link key={link.path} href={`/${locale}${link.path}`} className="whitespace-nowrap text-sm font-bold normal-case tracking-normal text-cream hover:text-gold">
+            <Link key={link.path} href={link.direct ? link.path : `/${locale}${link.path}`} className="whitespace-nowrap text-sm font-bold normal-case tracking-normal text-cream hover:text-gold">
               {link.label}
             </Link>
           ))}
@@ -72,7 +75,7 @@ export default function Navbar({ mode = 'full' }: { mode?: 'full' | 'welcome' })
             </summary>
             <div className="absolute right-0 top-full mt-2 w-[min(90vw,22rem)] border border-blood-red bg-charcoal p-4 shadow-xl">
               {links.map(link => (
-                <Link key={link.path} href={`/${locale}${link.path}`} className="block border-b border-jet-black px-2 py-3 text-sm font-bold normal-case tracking-normal text-cream hover:text-gold">
+                <Link key={link.path} href={link.direct ? link.path : `/${locale}${link.path}`} className="block border-b border-jet-black px-2 py-3 text-sm font-bold normal-case tracking-normal text-cream hover:text-gold">
                   {link.label}
                 </Link>
               ))}

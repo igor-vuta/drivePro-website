@@ -1,13 +1,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
-import { siteBasePath } from '@/lib/site';
+import { sectionPath, siteBasePath, type Locale } from '@/lib/site';
 import WelcomeArrival from './WelcomeArrival';
 import styles from './Welcome.module.css';
 
 export default function Hero() {
   const t = useTranslations('home');
-  const locale = useLocale();
+  const locale = useLocale() as Locale;
   const phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER || '+7 (777) 207-16-97';
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '77772071697';
 
@@ -17,7 +17,7 @@ export default function Hero() {
       <h1 id="welcome-title">{t('headline')}</h1>
     </header>
     <div className={styles.choices}>
-      <Link href={`/${locale}/pricing`} prefetch={false} className={`${styles.choice} ${styles.equipment}`} data-destination="equipment">
+      <Link href={sectionPath(locale, 'excavators')} prefetch={false} className={`${styles.choice} ${styles.equipment}`} data-destination="equipment">
         <span className={styles.visual} aria-hidden="true">
           <span className={styles.lean}>
             <picture>
@@ -33,7 +33,7 @@ export default function Hero() {
           <span className={`${styles.cta} ${styles.primary}`}>{t('equipment_action')} <span aria-hidden="true">↗</span></span>
         </span>
       </Link>
-      <Link href={`/${locale}/mopeds`} prefetch={false} className={`${styles.choice} ${styles.mopeds}`} data-destination="mopeds">
+      <Link href={sectionPath(locale, 'mopeds')} prefetch={false} className={`${styles.choice} ${styles.mopeds}`} data-destination="mopeds">
         <span className={styles.visual} aria-hidden="true">
           <span className={styles.lean}>
             <picture>

@@ -9,6 +9,8 @@ const origin = 'https://igor-vuta.github.io';
 const locales = { ru: 'ru', kz: 'kk', en: 'en' };
 const pages = ['', 'services', 'pricing', 'contact', 'mopeds'];
 const route = (locale, page = '') => `${base}/${locale}/${page ? `${page}/` : ''}`;
+const section = (locale, page) => `${base}${locale === 'ru' ? '' : `/${locale}`}/${page === 'services' ? 'excavators' : page}/`;
+const canonical = (locale, page) => page === 'services' || page === 'mopeds' ? section(locale, page) : route(locale, page);
 
 function exportedFile(path) {
   assert.ok(path.startsWith(`${base}/`), `Link misses Pages base path: ${path}`);
@@ -39,11 +41,14 @@ for (const [locale, language] of Object.entries(locales)) {
     assert.doesNotMatch(html, /(?:\d[\d\s]{2,}\s*(?:₸|тг|тенге|KZT)|200\+|с\s*2018|since\s*2018|скидк\w*|акци\w*|жеңілдік\w*)/iu, `Legacy price or promotion claim: ${path}`);
     assert.ok(html.includes(`<title>${seo.title}</title>`), `Wrong title: ${path}`);
     assert.ok(html.includes(`name="description" content="${seo.description}"`), `Wrong description: ${path}`);
-    assert.ok(html.includes(`rel="canonical" href="${origin}${path}"`), `Wrong canonical: ${path}`);
-    assert.ok(sitemap.includes(`<loc>${origin}${path}</loc>`), `Sitemap misses ${path}`);
+    assert.ok(html.includes(`rel="canonical" href="${origin}${canonical(locale, page)}"`), `Wrong canonical: ${path}`);
+    assert.ok(html.includes(`property="og:url" content="${origin}${canonical(locale, page)}"`), `Wrong Open Graph URL: ${path}`);
+    assert.ok(html.includes(`rel="alternate" hrefLang="x-default" href="${origin}${page === '' ? `${base}/` : canonical('ru', page)}"`), `Wrong default alternate: ${path}`);
+    if (page !== 'services' && page !== 'mopeds') assert.ok(sitemap.includes(`<loc>${origin}${path}</loc>`), `Sitemap misses ${path}`);
     for (const [target, targetLanguage] of Object.entries(locales)) {
-      assert.ok(html.includes(`rel="alternate" hrefLang="${targetLanguage}" href="${origin}${route(target, page)}"`), `Missing ${targetLanguage} alternate: ${path}`);
-      assert.ok(html.includes(`href="${route(target, page)}"`), `Language switch loses route: ${path}`);
+      assert.ok(html.includes(`rel="alternate" hrefLang="${targetLanguage}" href="${origin}${canonical(target, page)}"`), `Missing ${targetLanguage} alternate: ${path}`);
+      if (page === 'services' || page === 'mopeds') assert.ok(html.includes(`href="${canonical(target, page)}"`), `Language switch loses route: ${path}`);
+      else assert.ok(html.includes(`href="${route(target, page)}"`), `Language switch loses route: ${path}`);
     }
     assert.ok(html.includes(`href="${route(locale, 'contact')}"`), `Missing contact navigation: ${path}`);
     for (const [, href] of html.matchAll(/<a\b[^>]*\bhref="([^"]+)"/g)) {
@@ -67,9 +72,9 @@ for (const [locale, language] of Object.entries(locales)) {
     for (const key of ['headline', 'location', 'greeting', 'equipment_title', 'equipment_text', 'equipment_action', 'moped_title', 'moped_text', 'moped_action', 'illustration_note']) {
       assert.ok(html.includes(messages.home[key]), `Missing static welcome ${key}: ${locale}`);
     }
-    for (const [destination, page] of [['equipment', 'pricing'], ['mopeds', 'mopeds']]) {
+    for (const [destination, page] of [['equipment', 'services'], ['mopeds', 'mopeds']]) {
       const anchor = [...html.matchAll(/<a\b[^>]*>/g)].map(match => match[0]).find(tag => tag.includes(`data-destination="${destination}"`));
-      assert.ok(anchor?.includes(`href="${route(locale, page)}"`), `Missing direct ${destination} route: ${locale}`);
+      assert.ok(anchor?.includes(`href="${section(locale, page)}"`), `Missing direct ${destination} route: ${locale}`);
     }
     assert.doesNotMatch(html, /id="instagram-gallery-title"|class="optional-play"|id="callback-phone"|data-scene="3d"/, `Home contains a removed dense section: ${locale}`);
     assert.match(html, /href="tel:\+\d+"/);
@@ -169,5 +174,32 @@ for (const [locale, language] of Object.entries(locales)) {
   }
 }
 
+for (const page of ['services', 'mopeds']) {
+  for (const [locale, language] of Object.entries(locales)) {
+    const path = section(locale, page);
+    const html = readFileSync(exportedFile(path), 'utf8');
+    const messages = JSON.parse(readFileSync(`messages/${locale}.json`, 'utf8'));
+    const seo = messages.seo[page];
+    assert.ok(html.includes(`<html lang="${language}"`), `Wrong section language: ${path}`);
+    assert.equal((html.match(/<h1\b/g) || []).length, 1, `Section needs one H1: ${path}`);
+    assert.ok(html.includes(`<title>${seo.title}</title>`), `Wrong section title: ${path}`);
+    assert.ok(html.includes(`name="description" content="${seo.description}"`), `Wrong section description: ${path}`);
+    assert.ok(html.includes(`rel="canonical" href="${origin}${path}"`), `Wrong section canonical: ${path}`);
+    assert.ok(html.includes(`property="og:url" content="${origin}${path}"`), `Wrong section Open Graph URL: ${path}`);
+    assert.ok(html.includes(`rel="alternate" hrefLang="x-default" href="${origin}${section('ru', page)}"`), `Wrong section default alternate: ${path}`);
+    assert.ok(sitemap.includes(`<loc>${origin}${path}</loc>`), `Sitemap misses section: ${path}`);
+    for (const [target, targetLanguage] of Object.entries(locales)) {
+      assert.ok(html.includes(`rel="alternate" hrefLang="${targetLanguage}" href="${origin}${section(target, page)}"`), `Missing section alternate: ${path}`);
+      assert.ok(html.includes(`href="${section(target, page)}"`), `Missing section language switch: ${path}`);
+    }
+    for (const [, href] of html.matchAll(/<a\b[^>]*\bhref="([^"]+)"/g)) {
+      if (href.startsWith('/')) assert.ok(existsSync(exportedFile(new URL(href, origin).pathname)), `Broken section link ${href} on ${path}`);
+    }
+    for (const [, asset] of html.matchAll(/<(?:link|script|img|source)\b[^>]*\b(?:href|src)="(\/drivePro-website\/[^"]+)"/g)) {
+      assert.ok(existsSync(exportedFile(new URL(asset, origin).pathname)), `Missing section asset ${asset} on ${path}`);
+    }
+  }
+}
+
 for (const file of ['index.html', 'sitemap.xml', 'robots.txt', '.nojekyll']) assert.ok(existsSync(join('out', file)));
-stdout.write('Checked 15 localized routes, metadata, sitemap, links, assets, static welcome links and responsive assets, services FAQ, quote, mopeds and contact actions.\n');
+stdout.write('Checked 15 legacy localized routes and six section landings, exported metadata, sitemap, links, assets, quote, mopeds and contact actions.\n');

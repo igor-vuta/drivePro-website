@@ -1,24 +1,26 @@
 import Link from 'next/link';
 import styles from './Welcome.module.css';
 import { useTranslations, useLocale } from 'next-intl';
+import { sectionPath, type Locale } from '@/lib/site';
 
 export default function Footer({ compact = false }: { compact?: boolean }) {
   const t = useTranslations('footer');
   const tNav = useTranslations('nav');
-  const locale = useLocale();
+  const locale = useLocale() as Locale;
   const phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER || '+7 (777) 207-16-97';
 
   const links = [
     { href: `/${locale}`, label: tNav('home') },
-    { href: `/${locale}/services`, label: tNav('services') },
+    { href: sectionPath(locale, 'excavators'), label: tNav('services') },
     { href: `/${locale}/pricing`, label: tNav('pricing') },
-    { href: `/${locale}/mopeds`, label: tNav('mopeds') },
+    { href: sectionPath(locale, 'mopeds'), label: tNav('mopeds') },
     { href: `/${locale}/contact`, label: tNav('contact') },
   ];
 
   if (compact) return <footer className={styles.footer}>
     <nav aria-label={t('links_title')}>
-      <Link href={`/${locale}/services`} prefetch={false}>{tNav('services')}</Link>
+      <Link href={sectionPath(locale, 'excavators')} prefetch={false}>{tNav('services')}</Link>
+      <Link href={sectionPath(locale, 'mopeds')} prefetch={false}>{tNav('mopeds')}</Link>
       <Link href={`/${locale}/contact`} prefetch={false}>{tNav('contact')}</Link>
     </nav>
     <p>{t('copyright')}</p>
