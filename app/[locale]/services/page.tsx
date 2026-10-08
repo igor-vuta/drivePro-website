@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import EquipmentExperience from '@/components/EquipmentExperience';
 import { locales, pageMetadata, type Locale } from '@/lib/site';
 
 export function generateStaticParams() {
@@ -19,8 +20,16 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
   const t = await getTranslations('services');
   const phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER || '+7 (777) 207-16-97';
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '77772071697';
-  const sections = ['operator', 'jobs', 'access', 'other'] as const;
   const questions = ['operator', 'price', 'unknown', 'whatsapp'] as const;
+  if (locale === 'ru') {
+    return <EquipmentExperience
+      phoneNumber={phoneNumber}
+      whatsappNumber={whatsappNumber}
+      faqTitle={t('faq_title')}
+      faq={questions.map(key => ({ key, question: t(`faq_${key}_question`), answer: t(`faq_${key}_answer`) }))}
+    />;
+  }
+  const sections = ['operator', 'jobs', 'access', 'other'] as const;
 
   return (
     <main className="min-h-screen bg-jet-black">
