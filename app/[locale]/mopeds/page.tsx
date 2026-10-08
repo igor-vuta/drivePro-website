@@ -2,6 +2,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import Navbar from '@/components/Navbar';
 import InstagramGallery from '@/components/InstagramGallery';
 import Footer from '@/components/Footer';
+import MopedExperience from '@/components/MopedExperience';
 import { locales, pageMetadata, type Locale } from '@/lib/site';
 
 export function generateStaticParams() {
@@ -18,6 +19,9 @@ export default async function MopedsPage({ params }: { params: Promise<{ locale:
   setRequestLocale(locale);
   const t = await getTranslations('mopeds');
   const phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER || '+7 (777) 207-16-97';
+  if (locale === 'ru') {
+    return <MopedExperience phoneNumber={phoneNumber} whatsappNumber={process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '77772071697'} />;
+  }
 
   return (
     <main className="min-h-screen bg-jet-black">
