@@ -8,7 +8,7 @@
     "lint": "eslint . --max-warnings=0",
     "typecheck": "tsc --noEmit",
     "check:export": "node scripts/check-export.mjs",
-    "test": "node --test scripts/test-quote.mjs scripts/test-play.mjs scripts/test-stories.mjs scripts/test-braces.mjs",
+    "test": "node --test scripts/test-quote.mjs scripts/test-play.mjs scripts/test-stories.mjs scripts/test-braces.mjs && node scripts/test-website-journeys.mjs",
     "audit": "npm audit --audit-level=low",
     "commitlint": "commitlint",
     "sync:stories": "node scripts/sync-instagram-stories.mjs"
