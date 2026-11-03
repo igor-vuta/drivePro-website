@@ -1,9 +1,8 @@
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
-import WhyUs from '@/components/WhyUs';
-import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
-import { setRequestLocale } from 'next-intl/server';
+import styles from '@/components/Welcome.module.css';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { locales, pageMetadata, type Locale } from '@/lib/site';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }) {
@@ -18,13 +17,15 @@ export function generateStaticParams() {
 export default async function HomePage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations('home');
   return (
-    <main>
-      <Navbar />
+    <div className={styles.home}>
+      <a href="#welcome" className={styles.skip}>{t('skip')}</a>
+      <Navbar mode="welcome" />
+      <main className={styles.main}>
       <Hero />
-      <WhyUs />
-      <ContactSection />
-      <Footer />
-    </main>
+      </main>
+      <Footer compact />
+    </div>
   );
 }

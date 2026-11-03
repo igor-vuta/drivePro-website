@@ -1,10 +1,18 @@
 # Managed development
 
+> **Current planning handoff:** Read [../PLAN.md](../PLAN.md) before any future redesign work. The owner chose two separate one-page websites and will start development later. Do not activate workers or a scheduler from the earlier layout proposal. Existing SEO follow-up remains a separate pending task.
+
+> **Parallel development:** The owner now requests this website and DrivePro_2 to
+> develop concurrently. Read [../DEVELOPMENT_PLAN.md](../DEVELOPMENT_PLAN.md) and
+> the [shared coordination plan](/Users/macbookairm3_16gb/Developer/DRIVE_PRO_PARALLEL_PLAN.md).
+> Keep one active writer per project under the existing two-project limit. This
+> planning update does not dispatch workers or change scheduler state.
+
 Owner enrollment request: 2026-10-03. Project ID: `drivepro-website`.
 Requirements source: [PROJECT.md](../PROJECT.md).
 Implementation baseline: the existing `drivePro-website` repository, observed at `71efab2b53b668511179408de1dab977d78771b0` before enrollment. Reinspect current source before integration or release.
 
-DrivePro_2 is a completely different product. No requirements, source, rides, authentication, design, hosting assumptions, progress, release exceptions or approvals transfer between the two. The scheduler and coordinator are the shared resources.
+DrivePro_2 is a completely different product. No requirements, source, rides, authentication, hosting assumptions, progress, release exceptions or approvals transfer between the two. The owner now requests a common Drive Pro visual identity only; this does not authorize copying another product's layout or changing that product. The scheduler and coordinator are the shared workflow resources.
 
 ## State and ownership
 
@@ -22,6 +30,11 @@ Reuse the existing `local.project-supervisor` LaunchAgent and `drivepro-supervis
 Do not change the enrolled source while a worker/evaluator has snapshotted it. Keep progress updates in supervisor state. Refresh this document only between project runs. Preserve unrelated work and all failed or frozen evidence.
 
 ## Requirements
+
+The table below records the original enrollment requirements. For future redesign work,
+the current [PROJECT.md](../PROJECT.md) and [PLAN.md](../PLAN.md) supersede conflicting
+shared-site, compulsory trilingual, translated-message and form requirements. Do not
+enqueue the historical first tasks below as new redesign work.
 
 | ID | Scope | Acceptance |
 | --- | --- | --- |

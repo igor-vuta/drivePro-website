@@ -5,13 +5,22 @@
 :root {
   --foreground-rgb: 245, 240, 232;
   --background-start-rgb: 10, 10, 10;
-  --font-display: Impact, 'Arial Narrow', Arial, sans-serif;
+  --font-sans: 'Noto Sans', Arial, sans-serif;
+  --font-display: var(--font-sans);
+}
+
+@font-face {
+  font-family: 'Noto Sans';
+  src: url('/drivePro-website/fonts/noto-sans-latin-cyrillic-variable.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
 }
 
 body {
   color: rgb(var(--foreground-rgb));
   background: #0A0A0A;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
   line-height: 1.5;
 }
 
@@ -26,11 +35,11 @@ h1, h2, h3, h4, nav, button, .display-type {
 
 @layer components {
   .action-primary {
-    @apply inline-flex min-h-12 items-center justify-center bg-blood-red px-6 py-3 text-center text-sm font-black uppercase tracking-wider text-cream transition-colors hover:bg-deep-red;
+    @apply inline-flex min-h-12 items-center justify-center bg-blood-red px-6 py-3 text-center text-sm font-black normal-case tracking-normal text-cream transition-colors hover:bg-deep-red;
   }
 
   .action-outline {
-    @apply inline-flex min-h-12 items-center justify-center border-2 border-gold px-6 py-3 text-center text-sm font-black uppercase tracking-wider text-cream transition-colors hover:bg-gold hover:text-jet-black;
+    @apply inline-flex min-h-12 items-center justify-center border-2 border-gold px-6 py-3 text-center text-sm font-black normal-case tracking-normal text-cream transition-colors hover:bg-gold hover:text-jet-black;
   }
 
   .form-field {

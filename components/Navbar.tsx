@@ -3,11 +3,12 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
+import styles from './Welcome.module.css';
 import { locales, type Locale } from '@/lib/site';
 
 const languageNames: Record<Locale, string> = { ru: 'RU', kz: 'ҚАЗ', en: 'EN' };
 
-export default function Navbar() {
+export default function Navbar({ mode = 'full' }: { mode?: 'full' | 'welcome' }) {
   const t = useTranslations('nav');
   const locale = useLocale() as Locale;
   const pathname = usePathname();
@@ -31,7 +32,7 @@ export default function Navbar() {
           hrefLang={target === 'kz' ? 'kk' : target}
           lang={target === 'kz' ? 'kk' : target}
           aria-current={target === locale ? 'page' : undefined}
-          className={`inline-flex min-h-11 min-w-11 items-center justify-center border px-2 text-xs font-black tracking-wider ${target === locale ? 'border-gold bg-gold text-jet-black' : 'border-gold text-gold hover:bg-gold hover:text-jet-black'}`}
+          className={`inline-flex min-h-11 min-w-11 items-center justify-center border px-2 text-xs font-black tracking-normal ${target === locale ? 'border-gold bg-gold text-jet-black' : 'border-gold text-gold hover:bg-gold hover:text-jet-black'}`}
         >
           {languageNames[target]}
         </Link>
@@ -39,17 +40,24 @@ export default function Navbar() {
     </div>
   );
 
+  if (mode === 'welcome') return <nav className={styles.header} aria-label={t('company')}>
+    <Link href={`/${locale}`} className={styles.brand} prefetch={false} translate="no">Drive <span>Pro</span></Link>
+    <div className={styles.languages} aria-label={t('languages')}>
+      {locales.map(target => <Link key={target} href={`/${target}${route}`} prefetch={false} hrefLang={target === 'kz' ? 'kk' : target} lang={target === 'kz' ? 'kk' : target} aria-current={target === locale ? 'page' : undefined} className={styles.language}>{languageNames[target]}</Link>)}
+    </div>
+  </nav>;
+
   return (
     <nav className="sticky top-0 z-50 border-b-2 border-blood-red bg-jet-black" aria-label={t('company')}>
       <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between gap-3 px-4 md:px-8 lg:px-16">
-        <Link href={`/${locale}`} className="flex min-w-0 items-center gap-2 text-base font-black uppercase tracking-widest text-cream sm:text-lg">
+        <Link href={`/${locale}`} className="flex min-w-0 items-center gap-2 text-base font-black normal-case tracking-normal text-cream sm:text-lg">
           <span className="text-xl text-gold" aria-hidden="true">◆</span>
           <span className="truncate">{t('company')}</span>
         </Link>
 
         <div className="hidden items-center gap-4 lg:flex">
           {links.map(link => (
-            <Link key={link.path} href={`/${locale}${link.path}`} className="whitespace-nowrap text-sm font-bold uppercase tracking-wide text-cream hover:text-gold">
+            <Link key={link.path} href={`/${locale}${link.path}`} className="whitespace-nowrap text-sm font-bold normal-case tracking-normal text-cream hover:text-gold">
               {link.label}
             </Link>
           ))}
@@ -64,7 +72,7 @@ export default function Navbar() {
             </summary>
             <div className="absolute right-0 top-full mt-2 w-[min(90vw,22rem)] border border-blood-red bg-charcoal p-4 shadow-xl">
               {links.map(link => (
-                <Link key={link.path} href={`/${locale}${link.path}`} className="block border-b border-jet-black px-2 py-3 text-sm font-bold uppercase tracking-wide text-cream hover:text-gold">
+                <Link key={link.path} href={`/${locale}${link.path}`} className="block border-b border-jet-black px-2 py-3 text-sm font-bold normal-case tracking-normal text-cream hover:text-gold">
                   {link.label}
                 </Link>
               ))}

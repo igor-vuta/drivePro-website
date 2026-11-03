@@ -1,208 +1,175 @@
-# Drive Pro — project goals
+# Drive Pro — equipment rental and moped sales
 
-Status: approved working scope for supervisor enrollment by owner instruction on 2026-10-03. Current execution evidence is maintained separately in the supervisor state.
-Date: 2026-10-03
+Updated: 7 October 2026.
+Status: requirements recorded; redesign development starts on a later owner instruction.
 
-## Purpose
+Coordination update: the owner requests parallel development with DrivePro_2.
+[DEVELOPMENT_PLAN.md](DEVELOPMENT_PLAN.md) adds bounded milestones and acceptance;
+the [parallel plan](/Users/macbookairm3_16gb/Developer/DRIVE_PRO_PARALLEL_PLAN.md)
+defines concurrent tracks. This update saves planning/context; it does not claim
+implementation or worker activation.
 
-Turn the existing Drive Pro website into a reliable source of relevant enquiries in Almaty and the confirmed surrounding service area. Visitors should find the business through search, immediately understand what it offers, and easily contact us about earthworks or mopeds.
+## Purpose and scope
 
-Improve the existing site incrementally. Keep useful code, routes, content and working contact links. Rebuild a part only when an audit shows that adapting it cannot meet the goals.
+Create two separate one-page websites under the Drive Pro family identity in Almaty:
 
-DrivePro_2 is a completely different product. Use this repository's existing website and history as the implementation baseline. Do not import DrivePro_2's requirements, source, authentication, ride-sharing features, design, deployment assumptions, progress or approvals. Only the shared supervisor machinery is reused.
+1. **Equipment rental and earthworks:** help customers choose machinery and discuss their job with us.
+2. **Moped sales:** help customers browse models, view real photos/video and contact us about buying.
+
+Each site has its own clear offer and one main scrolling page. There is no shared entrance requiring visitors to choose between excavators and mopeds. Language versions, if chosen, remain versions of those one-pagers.
+
+This document defines the goals, business rules and acceptance criteria. [PLAN.md](PLAN.md) contains the proposed sections, interactions, message examples and later development sequence. Read both before implementation. Unresolved choices stay unresolved until recorded.
 
 ## Priorities
 
-1. **Local SEO:** compete for relevant Russian, Kazakh and English searches about excavators, tractors, earthworks and mopeds in Almaty.
-2. **Customer experience:** offer two obvious routes: request an excavator/earthworks quote, or browse mopeds. Make calling and WhatsApp easy throughout both routes.
-3. **Design and engagement:** give the site a fresh identity and an optional playful interaction while protecting loading speed and contact access.
+1. **Local SEO:** attract relevant Almaty searches for equipment rental, earthworks and moped sales.
+2. **Easy enquiries:** visitors immediately understand the offer, see the equipment or mopeds and can call or open WhatsApp without completing a form.
+3. **Recognizable design:** shared Drive Pro styling, a convincing equipment scroll animation and a generous moped gallery, with little unnecessary text.
 
-If these priorities conflict, search visibility and customer enquiries take precedence over decoration or games.
+Search visibility and useful enquiries take precedence over decoration. First place in search is an ambition, not a guaranteed result.
 
-## Existing baseline
+## Product and repository boundaries
 
-Source inspection on 2026-10-03 found:
+Use the existing website and this repository's history as the implementation baseline. Reuse working contact logic, useful factual copy and suitable code while redesigning the presentation. Preserve public routes until a checked migration is ready.
 
-- Next.js 14, TypeScript, Tailwind and `next-intl`, with a static export configured for GitHub Pages under `/drivePro-website`.
-- Russian and Kazakh content at `/ru` and `/kz`; home, services, pricing and contact pages; no English translation file yet.
-- Excavator, loader and tractor cards, phone/WhatsApp/Instagram links, and a callback form that opens a WhatsApp draft.
-- Fixed equipment prices and a first-order promotion in the current copy. These need reconciliation with the requirement for individual excavator quotes.
-- Russian titles/descriptions shared across locales and a root `<html lang="ru">`.
-- Sitemap, robots and business data that default to `https://drivepro.kz`, while the README links to `https://igor-vuta.github.io/drivePro-website/`. The intended production domain and its current state need verification.
-- A callback success message that promises contact after opening WhatsApp. Opening a draft does not establish that the customer sent it or that we received it.
-- An existing push-to-main GitHub Pages deployment workflow.
+Two public websites do not automatically require two repositories. Addresses, hosting and repository organization remain open. Planning does not authorize new infrastructure or live deployment changes.
 
-This is a source baseline, not a completed browser, production, indexing or ranking audit. Business claims in the existing copy still need owner confirmation.
+DrivePro_2 is a different product. A common Drive Pro visual identity and parallel development are requested, but its ridesharing features, profiles, verification, referrals, data, business facts, infrastructure and approvals do not transfer here. Each project retains its own development and release evidence.
 
-## Goal 1 — local search visibility
+## Equipment rental website
 
-### Outcome
+### Offer and business rules
 
-Aim for leading local visibility, including first position where achievable, for a researched set of commercial searches. No implementation can guarantee first position for every query or every searcher. Track ordinary organic results separately from local map results.
+- Small excavators, approximately **1–2 tonnes**.
+- Loaders.
+- Excavator-mounted breaker; proposed public wording: **экскаватор с гидромолотом**.
+- Tractors.
+- Other machinery available to discuss, without inventing a fleet list.
 
-Start with a manageable priority query set. Expand it using actual search data and the services we really provide rather than creating a page for every wording variation.
+**Excavator work is available only with our operator. No self-drive excavator rental.** Quotes depend on the task and conditions; do not advertise a fixed excavator price or automatically calculated final quote. Confirm machine specifications, availability and suitability directly. Operator and commercial terms for other categories need confirmation.
 
-### Search intent coverage
+### Customer journey and animation
 
-These are initial query examples, not validated search-volume findings. Review Kazakh wording with a fluent speaker before publication.
+Understand the Almaty offer → explore machines revealed on scroll → select a machine or ask for advice → open a short Russian WhatsApp enquiry or call → discuss the job, timing and individual quote.
 
-| Intent | Russian examples | Kazakh examples | English examples |
-| --- | --- | --- | --- |
-| Excavator with operator | аренда экскаватора Алматы; экскаватор с оператором Алматы | Алматыда экскаватор жалдау; оператормен экскаватор жалдау | excavator rental Almaty; excavator hire with operator Almaty |
-| Small excavator / difficult access | мини-экскаватор Алматы; экскаватор для узкого проезда | Алматыда шағын экскаватор жалдау; тар жерге арналған экскаватор | mini excavator rental Almaty; narrow access excavation Almaty |
-| Earthworks by task | земляные работы Алматы; копка траншей; котлован под фундамент | Алматыдағы жер қазу жұмыстары; ор қазу; іргетасқа шұңқыр қазу | earthworks Almaty; trench digging; foundation excavation Almaty |
-| Tractor and loader | аренда трактора Алматы; услуги погрузчика Алматы | Алматыда трактор жалдау; тиегіш қызметтері | tractor hire Almaty; loader services Almaty |
-| Moped browsing | мопеды Алматы; скутеры Алматы | Алматыдағы мопедтер; Алматыдағы скутерлер | mopeds Almaty; scooters Almaty |
+The preferred animation reveals the equipment from around a central mark as the visitor scrolls. Machines must be recognizable and selectable. A rotating excavator is an alternative to compare during motion review. Approve an actual motion sample before implementing the final effect; decide real-time 3D versus pre-rendered delivery honestly.
 
-Add buying, rental, price, availability and neighbourhood modifiers only when they match the confirmed business offer. A broad search term does not authorize advertising a service we do not provide. Moped sales versus rental remains to be confirmed.
+Contacts remain available before and during animation. Provide normal scrolling, readable labels, keyboard access and an equivalent static equipment list for reduced motion or rendering failure.
 
-### Requirements
+### Minimal job brief and video
 
-- Give every important service an accessible page with useful text, real equipment details, job examples, service coverage, FAQs and a clear contact action. Group similar queries by intent; avoid near-identical keyword or location pages.
-- Make all core pages available in Russian, Kazakh and English, including page titles, descriptions, headings, navigation, form prompts, errors and WhatsApp messages. Do not leave English or Kazakh pages with Russian metadata.
-- Use stable language URLs, correct language attributes, self-referencing canonical URLs and reciprocal `hreflang` links with valid language codes (`ru`, `kk`, `en`). The existing `/kz` path can remain; the Kazakh language code is `kk`. Any URL migration needs a working redirect strategy for the chosen host.
-- Align production URLs, base path, internal links, sitemap, robots, social previews and structured data. Confirm the production address before changing them. Evaluate a business domain without assuming that buying one guarantees rankings.
-- Keep service text and navigation available in the exported HTML. Customers and crawlers should not need an animation, carousel, Instagram connection or client-side interaction to discover the offer.
-- Use accurate business structured data with confirmed contact details and service area. Do not invent prices, reviews, availability, addresses or aggregate ratings.
-- Confirm and improve the business's local presence: Google Business Profile, relevant Google/Yandex search tools and local listings such as 2GIS. Keep business details consistent and use real photographs and genuine customer reviews. External changes remain a separate authorized task.
-- Explain why excavator quotes vary and answer useful questions about access, dimensions, soil, timing and the operator. Add real job case studies when suitable material exists.
-- Measure indexing, search queries, impressions, clicks and enquiry actions. Do not report a WhatsApp or phone click as a received enquiry or completed job.
+Contact never requires a form. The proposed optional brief contains two primary answers:
 
-Google's [local ranking guidance](https://support.google.com/business/answer/7091?hl=en) explains the relevance, distance and prominence factors. Its [localized page guidance](https://developers.google.com/search/docs/specialty/international/localized-versions) describes how to connect language versions.
+- Work and approximate volume or dimensions, if known.
+- Desired start date, deadline or urgency.
 
-### Acceptance
+A small prompt can invite access restrictions or other special conditions. Do not restore the previous long questionnaire.
 
-- Every approved core route has complete content in all three languages and correct, verified SEO output in the static build.
-- Important production pages, contact links and language links work; sitemap entries point to real canonical pages.
-- Search tooling provides an indexing and query baseline when access is available. Record actual indexing separately from technical readiness.
-- The priority query list records intent, language, landing page and evidence of demand where available.
-- Establish a baseline, then review at approximately 30, 60 and 90 days after release. Record local ranking samples with the location, device and date; assess qualified enquiries alongside search visibility. Set numerical growth targets after baseline data exists.
+All WhatsApp drafts are Russian. Include the selected machine and only details the customer supplied; omit blank fields, underscores and automatic “unknown” answers. Preserve explicitly entered answers and manual message edits. With no details, use a short greeting about the selected machine or excavator work generally. Examples are in PLAN.md.
 
-## Goal 2 — two clear customer routes
+Proposed first-version video handling: invite customers to attach site video inside WhatsApp. Opening a prepared message does not send it, attach a video, confirm receipt or book a job. Website upload/storage is outside the current scope.
 
-The first screen must offer two clear choices in all three languages:
+### Previous work
 
-- **Excavator / earthworks — request a quote.** Tractor and loader enquiries belong within this equipment/services route.
-- **Mopeds — browse the latest updates.**
+The owner wants work examples but currently has no job photographs. Use equipment/work animation as illustration for now. Do not portray generated, stock or simulated scenes as completed customer jobs. Add a real portfolio when authentic material is supplied.
 
-Keep the language switcher and contact actions easy to find. Search visitors who land on a service page should be able to contact us directly without returning home.
+## Moped sales website
 
-### Route A — excavator and earthworks
+Mopeds are offered for **sale**. The main groups are:
 
-**Hard rule: excavator hire is available only with our operator. No hire without our operator.** State this on the landing page, equipment/service pages and enquiry summary in every language. Do not offer a self-drive option.
+| Brand | Models |
+| --- | --- |
+| Honda | AF27; AF34/35; AF56/57; AF62; AF67 |
+| Yamaha | SA39J; Jog Poche; Aprio; Vino |
+| Suzuki | Let's 2; Let's 4; Let's 5 |
 
-Excavator prices are individual quotes based on the task and conditions. Replace fixed excavator prices, conflicting promotions and price claims in metadata or structured data with a clear quote explanation. Confirm how this applies to tractors/loaders before changing their commercial terms.
+These are model families, not guaranteed current stock. Explain that the selection is broader and invite customers to ask or come and see more. Confirm visiting details before publishing an address or opening hours.
 
-Provide a short guided job brief with optional details. Calling or opening WhatsApp must remain available at every step; completing the brief is never required to contact us.
+### Customer journey and gallery
 
-Suggested questions:
+Understand that mopeds are for sale → browse Honda, Yamaha or Suzuki → open photos/video → ask about a selected model through WhatsApp, Instagram or another confirmed channel.
 
-1. **What work is needed?** Trench, foundation pit, site clearing or another confirmed task, with a free-text option and “not sure”.
-2. **Where and when?** Area/address or map reference, preferred date and flexibility.
-3. **How much work?** Approximate volume in m³, or length × width × depth in metres. Accept “not sure”; customers do not need technical expertise.
-4. **What are the access conditions?** Gate/path width if known, tight turns, limited height, slope, surface or other restrictions.
-5. **Anything else we should know?** Ground conditions, known underground services, spoil removal/loading and an existing description or photos.
+Use real media primarily from [@drivepro.moped.almaty](https://www.instagram.com/drivepro.moped.almaty/). Match model names to the actual media; reference the source publication when a model is unidentified. Item enquiries include the verified model or source link, in Russian.
 
-Use the answers to prepare a useful summary. A narrow-access answer can suggest discussing a small excavator; only our team confirms machine suitability, availability and the final quote. Do not invent machine clearance limits or calculate a guaranteed price from volume.
+Provide substantial imagery, useful thumbnails and a full-size story-style viewer with touch, visible navigation, keyboard controls and a clear close action. Video playback needs controls and no unexpected audio.
 
-Before leaving the site, show an editable summary and two actions:
+Fresh Instagram Stories remain a desired source. A story-style viewer does not establish a live feed. Saved posts/Highlights are a truthful initial source. Automatic updates need authorized account access and verified refresh, expiry and failure handling. Label saved/live content accurately.
 
-- **Open WhatsApp with this message.** Encode the selected language and actual answers correctly. Explain that the customer still needs to send the message. Leave unknown answers as “not sure / to discuss”.
-- **Call us.** Keep the summary visible as talking points, with a copy option.
+Publish prices and availability only when supplied and maintained. No moped rental, customer registration, online checkout or booking system is currently requested.
 
-Example Russian WhatsApp draft:
+## Shared visual identity and copy
 
-```text
-Здравствуйте! Нужен экскаватор с вашим оператором.
-Работа: [вид работ / нужно обсудить]
-Место: [район или адрес / нужно уточнить]
-Дата: [желаемая дата / гибко]
-Объём или размеры: [ответ / не знаю]
-Проезд и ограничения: [ответ / нужно уточнить]
-Грунт и другие условия: [ответ / нужно уточнить]
-Вывоз или погрузка грунта: [ответ / нужно обсудить]
-Подскажите подходящую технику, доступность и стоимость.
-При необходимости отправлю фото или видео участка.
-```
+Use the [owner's Almaty reference](docs/design/references/almaty-owner-reference.png): dominant blue, supporting yellow, white space and small red/green accents. Blue can evoke sky/water; yellow can evoke sunlit ground, crops or machinery. Avoid equal horizontal blue/yellow flag bands. The coat of arms is inspiration, not a business logo or a claim of municipal affiliation.
 
-Provide equivalent natural Kazakh and English messages. Photos/videos can be sent in WhatsApp; do not add a website upload service unless it is needed and separately designed.
+Share typography, buttons, spacing, icons and motion principles between the sites. Exact colors, fonts, layouts and animation assets require concrete desktop/mobile references. The earlier cream/graphite proposal is superseded.
 
-### Route B — mopeds
+Keep headings and explanations short. Refurbish useful existing text instead of carrying over crowded layouts. If Kazakh is selected, review natural wording and the appearance of its specific letters in the chosen font.
 
-Use the newest Stories from our account, [@drivepro.moped.almaty](https://www.instagram.com/drivepro.moped.almaty/), as the main carousel content. Prioritize newest first and make each item easy to view and enquire about.
+## Languages
 
-- Give the route a permanent text introduction, contact actions and confirmed moped details so it stays useful and searchable between Stories.
-- Provide touch, keyboard and visible previous/next controls. Videos need playback controls; avoid sound or automatic movement that prevents reading.
-- Where details are available, include a readable caption, model and a relevant enquiry action. Do not infer current stock, price or sale/rental terms from a picture.
-- Keep general enquiry actions available when an item cannot be reliably identified. Do not label old Stories as current availability.
+Russian is primary. **Every WhatsApp pre-message is Russian**, including when opened from another language version.
 
-**Automatic Stories integration is a feasibility gate, not an assumed feature.** Verify current Meta API support, account eligibility, owner connection, permissions, media expiry, permitted storage and refresh behaviour before choosing an implementation. The public profile URL alone is not a validated feed integration. The profile and Meta documentation could not be inspected through the research tool on 2026-10-03.
+Launch languages remain open: Russian only, Russian/Kazakh, or Russian/Kazakh/English. Do not silently choose or delete existing translations. Localize visible content, metadata and accessible labels for selected languages, and explain the Russian WhatsApp handoff where needed.
 
-Evaluate a scheduled build or an approved small server-side sync for a static site; keep credentials out of browser code and the repository. Any hosting change requires a separate decision.
+## SEO, migration and measurement
 
-Design these states explicitly:
+- Cover genuine Almaty equipment/earthworks and moped buying intents with useful content on the respective one-pagers. Keyword demand and rankings require evidence.
+- Keep machine names, service descriptions, model groups and contact links in crawlable HTML, independent of animation and Instagram.
+- Use correct titles, descriptions, canonicals, selected-language alternatives, sitemaps and truthful business data for the final addresses.
+- Map old URLs to their new destinations before removing routes. Verify the host's actual redirect support, preserve necessary Google verification and handle new Search Console properties separately.
+- Additional service/catalog pages are outside this structure. Discuss any future SEO-driven expansion before adding them.
+- Measure technical readiness, indexing, impressions, clicks and enquiries separately. A contact-link click is not proof of an enquiry, sale or completed job.
+- Establish a search baseline and review trends after release, including approximately 30/60/90-day reviews when data is available. Record location, device and date for ranking samples.
 
-- Active Stories: show the freshest verified content and refresh timestamp.
-- No active Stories: show a useful empty state, Instagram link and approved moped content.
-- Connection failure or expired media: avoid broken cards and retain the contact route.
-- Automatic integration unavailable: propose owner-managed uploads of approved Story media as the fallback. Mark these as curated content, not a live feed, and confirm this tradeoff before replacing the requested behaviour.
+Do not invent reviews, completed jobs, stock, precise specifications, service coverage or ranking positions. Confirm facts before publishing them.
 
-### Acceptance
+## Data and contact boundaries
 
-- A visitor can choose either route and reach its relevant contact action directly on a phone.
-- The excavator brief works with partial answers, preserves answers during editing, and produces a correct editable draft in each language.
-- WhatsApp and phone links use the confirmed business numbers. Opening a draft never displays “message sent”, “booking confirmed” or a callback promise.
-- The operator requirement and individual excavator quote policy are visible throughout the relevant journey.
-- The moped carousel works on touch and keyboard, with tested empty, stale and failed-feed states. Automatic sync is described as complete only after a real connected-account verification.
+The initial journey hands conversations and videos to contact platforms. If site-side collection, uploads or analytics are proposed later, first document purpose, data, destination, retention and applicable notice/consent. No account or identity-document collection is needed for the current journey.
 
-## Goal 3 — fresh design and optional play
+Use verified phone numbers and account links. Additional platforms, business addresses and opening hours require confirmation.
 
-Use a coherent Drive Pro identity, clear typography, real equipment/moped media and a strong mobile layout. Preserve useful existing branding where it fits. The two customer choices must be understandable before visitors scroll into decorative content.
+## Decisions still open
 
-Proposed interaction: **“Clear the site”** — a short excavator mini-game where visitors move a few piles of soil to reveal a moped or a playful Drive Pro scene. Touch or keyboard controls and a short completion make it approachable. A simple animated scene is acceptable if full 3D adds too much cost or complexity.
+1. Two public addresses, hosting/repository arrangement and existing-URL migration.
+2. Launch languages.
+3. Exact equipment details, non-excavator operator terms, service coverage and contacts.
+4. Model/media matching, higher-resolution originals, visiting details and any public stock/prices.
+5. Central mark, palette, typography, desktop/mobile compositions and approved motion sample.
+6. Asset sources/licensing and live Stories connection, if pursued.
 
-Keep this below the primary customer routes and behind an explicit play action. Load its assets on demand, pause when hidden, provide a static fallback and respect reduced motion. No contact action, service content or navigation should depend on playing it.
+## Acceptance criteria
 
-Performance target: good mobile [Core Web Vitals](https://web.dev/articles/vitals) where field data is available (LCP ≤ 2.5 s, INP ≤ 200 ms, CLS ≤ 0.1 at the 75th percentile). Use repeatable lab measurements while traffic is insufficient, and record them as lab results. Agree an asset/dependency budget in `DESIGN.md` before adding 3D libraries.
+- Two separate one-page websites clearly communicate their offers immediately.
+- Equipment categories and all supplied moped model groups are represented accurately.
+- Equipment animation matches the reviewed sample, with accessible static alternatives and immediate contact access.
+- Excavator operator-only and individual-quote rules are visible and reflected in enquiries.
+- Russian WhatsApp drafts use the selected item and supplied answers only; empty briefs remain short.
+- Authentic moped media is easy to browse, accurately named and honestly labeled for freshness.
+- Both sites share the approved blue/yellow identity and work on mobile, desktop and keyboard, including reduced-motion and missing-media states.
+- Selected languages, typography, SEO output, contacts and old-to-new URL behavior pass checks.
+- Live deployment and search outcomes are verified separately from local builds and CI.
 
-### Frontend workflow
+## Delivery and workflow
 
-Follow the shared [existing-site redesign guide](../frontend-agent-tooling/workflows/redesign-existing-ui.md), starting from its [tooling README](../frontend-agent-tooling/README.md):
+Development remains inactive until the owner starts it. Follow [PLAN.md](PLAN.md): resolve essentials → identity references → page/motion approval → equipment and moped candidates → integration/migration checks → controlled release.
 
-1. Record existing design rules and limits in `DESIGN.md`.
-2. Diagnose the existing UI and capture browser/performance baselines.
-3. Rank changes against SEO and the two customer routes; prepare the redesign brief for review.
-4. Use section-level image references for structural changes and in-place edits for polish.
-5. Verify the same routes, viewports, browser states and motion settings after implementation; review accessibility and regressions.
+### Required frontend redesign workflow
 
-Accept the visual work when both routes remain easy to use on mobile, keyboard navigation and focus work, text remains readable, and optional motion does not compromise loading or contact access.
+For the redesign, use the corresponding skills from `~/Developer/frontend-agent-tooling` and follow its [README](../frontend-agent-tooling/README.md) and [existing-UI redesign workflow](../frontend-agent-tooling/workflows/redesign-existing-ui.md). Read the relevant `SKILL.md` files from that shared folder before applying them:
 
-## Delivery order
+- [redesign-existing-projects](../frontend-agent-tooling/taste-skill/skills/redesign-skill/SKILL.md) for diagnosis and subsequent in-place improvements.
+- [image-to-code](../frontend-agent-tooling/taste-skill/skills/image-to-code-skill/SKILL.md) for visual references and structural layout changes.
+- [web-design-guidelines](../frontend-agent-tooling/vercel-agent-skills/skills/web-design-guidelines/SKILL.md) for UX and accessibility review.
 
-| Phase | Deliverable | Completion evidence |
-| --- | --- | --- |
-| 0. Confirm scope and baseline | Reviewed project brief, verified business facts, production address, existing-route/browser/search baseline and ranked backlog | Recorded facts, screenshots and checks; unresolved items labelled |
-| 1. SEO foundation | Three-language core content, URL/metadata/schema corrections, service-intent pages and measurement setup | Static output and browser checks; production/indexing checks when released and access is available |
-| 2. Customer routes | Two-choice entry, individual quote journey, operator rule, ongoing contact and prepared messages | End-to-end mobile checks in RU/KK/EN with complete and partial answers |
-| 3. Moped updates | Integration feasibility result, carousel and permanent supporting content | Connected-account refresh test or reviewed fallback; expiry/failure checks |
-| 4. Visual refinement and play | Reviewed redesign, optional animation/game and optimized assets | Before/after screenshots, accessibility and performance results |
-| 5. Search growth | Real job content, confirmed local listing improvements and query-led refinement | Search/enquiry trend reviews at agreed intervals |
+Follow the workflow's audit, browser baseline, ranked brief, visual review, implementation and verification sequence. Record this project's agreed identity in DESIGN.md; generic skill defaults must not override PROJECT.md, PLAN.md or owner decisions. Merely having the shared folder or an installed skill is not evidence that its instructions were read. This requirement applies when redesign begins; it does not activate development now.
 
-Design work can support earlier phases, but the optional game should follow the SEO and contact foundations. Work within the existing hosting/architecture until a demonstrated requirement justifies a change.
+### Managed delivery
 
-## Business facts to confirm during phase 0
+The project is enrolled as `drivepro-website` in the existing shared supervisor. Keep requirements, candidates, progress, history and approvals separate. Reuse workflow machinery only; do not start another scheduler. See [docs/SUPERVISOR.md](docs/SUPERVISOR.md).
 
-- Production domain, ownership and current deployment; access to search measurement and local business profiles.
-- Actual service area, equipment/specifications, operator terms, quote factors, transport/fuel/removal terms and contact hours.
-- Approved phone/WhatsApp details and real business claims, photos and job examples.
-- Whether mopeds are sold, rented or both; what constitutes current availability and which contact details apply.
-- Instagram account eligibility/access and the preferred fallback if automatic Stories retrieval is unavailable.
-- Review of all three language versions, particularly Kazakh service terminology.
+Future managed releases require scoped sole-owner SSH-signed commits with subject and body, actual repository commitlint, applicable local checks, batched ordinary pushes, exact-SHA CI and separate production verification. Workers cannot publish. New infrastructure, accounts, purchases, outreach and social publication require concrete drafts and separate decisions. This documentation update does not activate implementation or release.
 
-Unknowns block only dependent work. Baseline inspection, content structure and reversible local preparation can continue.
+## History
 
-## Workflow boundary
-
-The owner requested enrollment on 2026-10-03 as `drivepro-website`, using the existing shared supervisor and scheduler alongside other separately managed projects. See [managed development](docs/SUPERVISOR.md) for requirement IDs, task sequence, state locations and authority. Keep progress and event history separate from this requirements brief.
-
-Owner authorization covers scoped SSH-signed sole-owner commits with subject and body, ordinary batched pushes and existing push-triggered deployments after the required local, commitlint, signature and exact-revision CI gates. Social publication, outreach, new accounts, purchases, new infrastructure, destructive migrations and force pushes need separate concrete approval. Prepare exact artifacts before asking for publication or outreach decisions; approval and execution remain separate records.
+The [previous project brief](docs/history/PROJECT-before-two-websites-2026-10-07.md) is a historical snapshot. Its shared entrance, compulsory three-language launch and earlier form/page requirements are superseded by this document and PLAN.md. Prior release/search evidence remains in this project's supervisor history; it is not proof of the future redesign.

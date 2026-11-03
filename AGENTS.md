@@ -1,6 +1,8 @@
 # Drive Pro website
 
-Read `../AGENTS.md`, `PROJECT.md` and `docs/SUPERVISOR.md` before project work.
+Read `../AGENTS.md`, `PROJECT.md`, `PLAN.md` and `docs/SUPERVISOR.md` before project work.
+
+Current redesign planning follows `PLAN.md`: two separate one-page websites for equipment rental and moped sales. The owner has requested a shared Almaty-inspired blue/yellow visual identity across Drive Pro projects; this does not transfer other products’ features, data, infrastructure or approvals. The redesign is not activated. Launch languages remain undecided; WhatsApp pre-messages are Russian. This newer scope supersedes conflicting legacy design/page requirements below for future work.
 
 This repository is the Drive Pro equipment and moped marketing website. DrivePro_2 is a completely different product and must not supply this site's requirements, implementation, design, business facts, infrastructure or approval decisions. Use the existing files and Git history in this repository as the baseline. Preserve working routes and contact links while improving them incrementally.
 

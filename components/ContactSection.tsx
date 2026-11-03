@@ -23,14 +23,14 @@ export default function ContactSection({ showHeading = true }: { showHeading?: b
       <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16">
         {showHeading && <div className="mb-12">
           <div className="w-16 h-1 bg-blood-red mb-4" />
-          <h2 className="text-3xl md:text-5xl font-black text-cream uppercase tracking-wider">
+          <h2 className="text-3xl md:text-5xl font-black text-cream normal-case tracking-normal">
             <span className="text-gold">◆</span> {t('title')}
           </h2>
         </div>}
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
           <div className="bg-charcoal p-6 border-t-4 border-blood-red">
-            <h3 className="text-cream font-black text-lg uppercase tracking-wider mb-4">
+            <h3 className="text-cream font-black text-lg normal-case tracking-normal mb-4">
               {t('callback_title')}
             </h3>
             <form onSubmit={handleCallback}>
@@ -39,6 +39,8 @@ export default function ContactSection({ showHeading = true }: { showHeading?: b
               </label>
               <input
                 id="callback-phone"
+                name="phone"
+                autoComplete="tel"
                 type="tel"
                 value={phone}
                 onChange={e => setPhone(e.target.value)}
@@ -60,40 +62,40 @@ export default function ContactSection({ showHeading = true }: { showHeading?: b
           </div>
 
           <div className="bg-charcoal p-6 border-t-4 border-gold">
-            <h3 className="text-cream font-black text-lg uppercase tracking-wider mb-4">
+            <h3 className="text-cream font-black text-lg normal-case tracking-normal mb-4">
               {t('phone_title')}
             </h3>
             <a
               href={`tel:${phoneNumber.replace(/[^+\d]/g, '')}`}
-              className="block text-2xl font-black text-gold tracking-wider hover:text-blood-red transition-colors break-words"
+              className="block text-2xl font-black text-gold tracking-normal hover:text-blood-red transition-colors break-words"
             >
               {phoneNumber}
             </a>
           </div>
 
           <div className="bg-charcoal p-6 border-t-4 border-blood-red">
-            <h3 className="text-cream font-black text-lg uppercase tracking-wider mb-4">
+            <h3 className="text-cream font-black text-lg normal-case tracking-normal mb-4">
               {t('whatsapp_title')}
             </h3>
             <a
               href={`https://wa.me/${whatsappNumber}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="block w-full text-center bg-blood-red text-cream font-black text-xs tracking-widest uppercase py-3 hover:bg-deep-red transition-colors"
+              className="block w-full text-center bg-blood-red text-cream font-black text-xs tracking-normal normal-case py-3 hover:bg-deep-red transition-colors"
             >
               {t('whatsapp_btn')}
             </a>
           </div>
 
           <div className="bg-charcoal p-6 border-t-4 border-gold">
-            <h3 className="text-cream font-black text-lg uppercase tracking-wider mb-4">
+            <h3 className="text-cream font-black text-lg normal-case tracking-normal mb-4">
               {t('instagram_title')}
             </h3>
             <a
               href={instagramUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="block w-full text-center bg-gold text-jet-black font-black text-xs tracking-widest uppercase py-3 hover:bg-deep-red hover:text-cream transition-colors"
+              className="block w-full text-center bg-gold text-jet-black font-black text-xs tracking-normal normal-case py-3 hover:bg-deep-red hover:text-cream transition-colors"
             >
               {t('instagram_btn')}
             </a>
